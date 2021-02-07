@@ -10,5 +10,5 @@ src/config/env.js
 /index.html
 /index_prod.html
 test/*
-./src/router.js
-./src/views/InitMethods.js
+src/router.js
+src/views/InitMethods.js
