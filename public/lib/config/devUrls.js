@@ -7,53 +7,36 @@ window.allUrls = {
     'geoserver': 'http://localhost:8080/geoserver/'
 }
 
+let forTest__mapLayers = year => {
+    let layers = "";
+    switch (year) {
+        case 1990:
+            layers = "xj_test:vhi201811";
+            break;
+        case 2000:
+            layers = "xj_test:vhi201812";
+            break;
+        case 2010:
+            layers = "xj_test:vhi201813";
+            break;
+    }
+    return {
+        url: window.allUrls.geoserver + "xj_test/wms",
+        layers: layers,
+        params: {
+            styles: 'xj_test:vhi',
+            service: 'WMS',
+            transparent: true,
+            format: 'image/png'
+        }
+    }
+}
+
 window.mapLayers = {
     湖泊水面(year) {
-        let layers = "";
-        switch (year) {
-            case 1990:
-                layers = "xj_test:vhi201811";
-                break;
-            case 2000:
-                layers = "xj_test:vhi201812";
-                break;
-            case 2010:
-                layers = "xj_test:vhi201813";
-                break;
-        }
-        return {
-            url: window.allUrls.geoserver + "xj_test/wms",
-            layers: layers,
-            params: {
-                styles: 'xj_test:vhi',
-                service: 'WMS',
-                transparent: true,
-                format: 'image/png'
-            }
-        }
+        return forTest__mapLayers(year);
     },
     大湖区EVI(year) {
-        let layers = "xj_test:vhi201813";
-        switch (year) {
-            case 1990:
-                layers = "xj_test:vhi201811";
-                break;
-            case 2000:
-                layers = "xj_test:vhi201812";
-                break;
-            case 2010:
-                layers = "xj_test:vhi201813";
-                break;
-        }
-        return {
-            url: window.allUrls.geoserver + "xj_test/wms",
-            layers: layers,
-            params: {
-                styles: 'xj_test:vhi',
-                service: 'WMS',
-                transparent: true,
-                format: 'image/png'
-            }
-        }
+        return forTest__mapLayers(year);
     }
 };

@@ -1,5 +1,5 @@
 <template>
-    <ModelPage title="湖泊水面" map-rate="0.5">
+    <ModelPage title="湖泊水面" map-rate="1">
         <div slot="left">
             <single-selection title="年份" :selections="years" @select="changeYear"
                               height="500px"></single-selection>

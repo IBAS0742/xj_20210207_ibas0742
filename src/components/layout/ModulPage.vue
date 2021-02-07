@@ -48,7 +48,10 @@
                     };
                     bottomStyle = {
                         display: 'block',
-                        height: `${100 - 100 * this.mapRate}%`
+                        height: `${100 - 100 * this.mapRate}%`,
+                        position: "absolute",
+                        "z-index": 100000,
+                        width: `calc(100% - 300px)`,
                     };
                 }
                 console.log({topStyle,bottomStyle})
