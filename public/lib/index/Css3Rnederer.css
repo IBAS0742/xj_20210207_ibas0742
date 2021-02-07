@@ -1,0 +1,30 @@
+/* 样式 | yangjainzhi */
+
+/*按钮样式*/
+.mbBtn {
+    color: #1E9FFF!important;
+    background-color: white!important;
+    border: 1px solid #1E9FFF!important;
+}
+
+.mbBtn.active {
+    color: white!important;
+    background-color: #1E9FFF!important;
+}
+
+.side-subTitle {
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    background: #23daff;
+    line-height: 35px;
+}
+
+.ys-css3-container{
+    position: fixed;
+}
+.ys-css3-box{
+    position: fixed;
+}

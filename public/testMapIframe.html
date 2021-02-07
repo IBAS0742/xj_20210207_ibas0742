@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="lib/config/urls.js"></script>
+</head>
+<body>
+<div style="height: 200px;">
+    <button onclick="removeAll()">清除所有影像</button>
+    <button onclick="testAddSingleLayer()">测试添加一张遥感影像</button>
+    <button onclick="testRemoveSingleLayer()">测试移除添加的遥感影像</button>
+    <br/>
+    <button onclick="testAddTimelineLayer()">测试添加时间序列的遥感影像</button>
+    <button onclick="mapApis.play(0,2)">开始播放</button>
+    <button onclick="mapApis.stop()">暂停播放</button>
+    <br/>
+    <button onclick="testAddShpWMS()">测试矢量添加及交互</button>
+    <button onclick="testCreateEchart()">测试echart添加及删除</button>
+    <button onclick="testClickCB()">定义点击回调事件</button>
+    <br/>
+    <button onclick="testShowDrawer()">显示绘图工具</button>
+    <button onclick="testHideDrawer()">隐藏绘图工具</button>
+</div>
+<div style="height: calc(100vh - 200px);width:100%;">
+    <iframe id="_map_" style="height: 100%;width:100%" src="" frameborder="0"></iframe>
+</div>
+<script>
+    window.onload = function() {
+        window.map = document.getElementById('_map_');
+        window.map.src = "./map.html";
+    }
+    window.initOk = function (e) {
+        window.mapApis = map.contentWindow.apis;
+    }
+    function removeAll() {
+        window.mapApis.removeAll();
+    }
+    // 测试添加单一的遥感影像（切换影像逻辑和此差不多，但是要先执行 removeAll）
+    let testAddImage = null;
+    function testAddSingleLayer() {
+        testAddImage = mapApis.addSingleLayer(window.allUrls.geoserver + "xj_test/wms","xj_test:vhi201811",{
+            styles: 'xj_test:vhi',
+            service: 'WMS',
+            transparent: true,
+            format: 'image/png'
+        });
+    }
+    function testRemoveSingleLayer() {
+        if (testAddImage) {
+            if (mapApis.removeSingleLayer(testAddImage)) {
+                testAddImage = null;
+            }
+        }
+    }
+    // 测试添加一个有时间序列的影像
+    function testAddTimelineLayer() {
+        // 2018-3-23 是 2018 年的 11 个八天
+        // 2018-4-8 是 2018 年的 13 个八天
+        window.timeline = mapApis.addTimelineLayer(
+            "2018-3-23","2018-4-8",
+            window.allUrls.geoserver + "xj_test/wms",{
+                styles: 'xj_test:vhi',
+                service: 'WMS',
+                transparent: true,
+                format: 'image/png'
+        },function ({year,month,day,dd}) {
+            if (year === 2018) {
+                let d = parseInt(dd / 8) + 11;
+                if (d < 11 || d > 13) {
+                    d = 11;
+                }
+                ret = {
+                    layers: `xj_test:vhi2018${d}`,
+                    query_layers: `xj_test:vhi2018${d}`,
+                };
+            } else {
+                ret = {
+                    layers: `xj_test:vhi201811`,
+                    query_layers: `xj_test:vhi201811`,
+                };
+            }
+            // console.log({year,month,day,dd},ret);
+            return ret;
+        },function (j,{Y,M,D,date,day}) {
+            console.log(date);
+            console.log(day);
+        });
+    }
+    // 显示绘图工具并绑定方法
+    function testShowDrawer() {
+        mapApis.drawer(true);
+        mapApis.updateMagmMethod({
+            "POLYGON"(magm,obj,geojson) {
+                console.log(geojson);
+            }
+        });
+    }
+    // 隐藏画图工具
+    function testHideDrawer() {
+        mapApis.drawer(false);
+    }
+    // 测试添加 shp 的 wms 影像
+    function testAddShpWMS() {
+        mapApis.addShpWMS(window.allUrls.geoserver + "xj_test/wms","xj_test:cut1",{
+            service: 'WMS',
+            transparent: true,
+            format: 'image/png',
+            styles: 'xj_test:plant_urganch2019',
+        },(c2,datas) => {
+            mapApis.addPolygonShpGetInfo(datas);
+        });
+        mapApis.flyToExtent({
+            up: 42.39,
+            down: 41.14,
+            left: 59.75,
+            right: 61.51
+        })
+    }
+    // 测试创建 echart 图表
+    function testCreateEchart() {
+        let pointInfo = { title: "乌孜别克斯坦",long: 61.75, lat: 46.89 };
+        let obj = mapApis.createEntityAndCss3Rnederer();
+        let echartObj = mapApis.createEchartDom(obj.entity,obj.css3Renderer,pointInfo);
+        echartObj.ec.setOption( {
+            xAxis: {
+                type: 'category',
+                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: [150, 230, 224, 218, 135, 147, 260],
+                type: 'line'
+            }]
+        });
+        echartObj.echartElement.style.display = 'block';
+    }
+    // 测试点击回调事件
+    function testClickCB() {
+        mapApis.bindPickerMethod(obj => {
+            console.group();
+            if (obj.pick) {
+                console.log("点击到定义的实体了");
+            }
+            console.log(obj);
+            console.groupEnd();
+        });
+    }
+</script>
+</body>
+</html>

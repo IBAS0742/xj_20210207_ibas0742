@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StyledLayerDescriptor xmlns="http://www.opengis.net/sld" version="1.1.0" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/sld http://schemas.opengis.net/sld/1.1.0/StyledLayerDescriptor.xsd" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:se="http://www.opengis.net/se">
+  <NamedLayer>
+    <se:Name>urganch2019</se:Name>
+    <UserStyle>
+      <se:Name>urganch2019</se:Name>
+      <se:FeatureTypeStyle>
+        <se:Rule>
+          <se:Name>玉米</se:Name>
+          <se:Description>
+            <se:Title>玉米</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:PropertyIsEqualTo>
+              <ogc:PropertyName>MAX</ogc:PropertyName>
+              <ogc:Literal>1</ogc:Literal>
+            </ogc:PropertyIsEqualTo>
+          </ogc:Filter>
+          <se:PolygonSymbolizer>
+            <se:Fill>
+              <se:SvgParameter name="fill">#cc3126</se:SvgParameter>
+            </se:Fill>
+          </se:PolygonSymbolizer>
+        </se:Rule>
+        <se:Rule>
+          <se:Name>水稻</se:Name>
+          <se:Description>
+            <se:Title>水稻</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:PropertyIsEqualTo>
+              <ogc:PropertyName>MAX</ogc:PropertyName>
+              <ogc:Literal>2</ogc:Literal>
+            </ogc:PropertyIsEqualTo>
+          </ogc:Filter>
+          <se:PolygonSymbolizer>
+            <se:Fill>
+              <se:SvgParameter name="fill">#31d980</se:SvgParameter>
+            </se:Fill>
+          </se:PolygonSymbolizer>
+        </se:Rule>
+        <se:Rule>
+          <se:Name>小麦</se:Name>
+          <se:Description>
+            <se:Title>小麦</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:PropertyIsEqualTo>
+              <ogc:PropertyName>MAX</ogc:PropertyName>
+              <ogc:Literal>3</ogc:Literal>
+            </ogc:PropertyIsEqualTo>
+          </ogc:Filter>
+          <se:PolygonSymbolizer>
+            <se:Fill>
+              <se:SvgParameter name="fill">#663be6</se:SvgParameter>
+            </se:Fill>
+          </se:PolygonSymbolizer>
+        </se:Rule>
+        <se:Rule>
+          <se:Name>棉花</se:Name>
+          <se:Description>
+            <se:Title>棉花</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:PropertyIsEqualTo>
+              <ogc:PropertyName>MAX</ogc:PropertyName>
+              <ogc:Literal>4</ogc:Literal>
+            </ogc:PropertyIsEqualTo>
+          </ogc:Filter>
+          <se:PolygonSymbolizer>
+            <se:Fill>
+              <se:SvgParameter name="fill">#7ddbe1</se:SvgParameter>
+            </se:Fill>
+          </se:PolygonSymbolizer>
+        </se:Rule>
+        <se:Rule>
+          <se:Name>苹果、园地等</se:Name>
+          <se:Description>
+            <se:Title>苹果、园地等</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:PropertyIsEqualTo>
+              <ogc:PropertyName>MAX</ogc:PropertyName>
+              <ogc:Literal>5</ogc:Literal>
+            </ogc:PropertyIsEqualTo>
+          </ogc:Filter>
+          <se:PolygonSymbolizer>
+            <se:Fill>
+              <se:SvgParameter name="fill">#e488bb</se:SvgParameter>
+            </se:Fill>
+          </se:PolygonSymbolizer>
+        </se:Rule>
+        <se:Rule>
+          <se:Name>林地、桑树等</se:Name>
+          <se:Description>
+            <se:Title>林地、桑树等</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:PropertyIsEqualTo>
+              <ogc:PropertyName>MAX</ogc:PropertyName>
+              <ogc:Literal>6</ogc:Literal>
+            </ogc:PropertyIsEqualTo>
+          </ogc:Filter>
+          <se:PolygonSymbolizer>
+            <se:Fill>
+              <se:SvgParameter name="fill">#3dd026</se:SvgParameter>
+            </se:Fill>
+          </se:PolygonSymbolizer>
+        </se:Rule>
+        <se:Rule>
+          <se:Name>蔬菜、大棚等</se:Name>
+          <se:Description>
+            <se:Title>蔬菜、大棚等</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:PropertyIsEqualTo>
+              <ogc:PropertyName>MAX</ogc:PropertyName>
+              <ogc:Literal>8</ogc:Literal>
+            </ogc:PropertyIsEqualTo>
+          </ogc:Filter>
+          <se:PolygonSymbolizer>
+            <se:Fill>
+              <se:SvgParameter name="fill">#5081e2</se:SvgParameter>
+            </se:Fill>
+          </se:PolygonSymbolizer>
+        </se:Rule>
+        <se:Rule>
+          <se:Name>盐碱地</se:Name>
+          <se:Description>
+            <se:Title>盐碱地</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:PropertyIsEqualTo>
+              <ogc:PropertyName>MAX</ogc:PropertyName>
+              <ogc:Literal>9</ogc:Literal>
+            </ogc:PropertyIsEqualTo>
+          </ogc:Filter>
+          <se:PolygonSymbolizer>
+            <se:Fill>
+              <se:SvgParameter name="fill">#c926e5</se:SvgParameter>
+            </se:Fill>
+          </se:PolygonSymbolizer>
+        </se:Rule>
+        <se:Rule>
+          <se:Name>弃耕</se:Name>
+          <se:Description>
+            <se:Title>弃耕</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:PropertyIsEqualTo>
+              <ogc:PropertyName>MAX</ogc:PropertyName>
+              <ogc:Literal>10</ogc:Literal>
+            </ogc:PropertyIsEqualTo>
+          </ogc:Filter>
+          <se:PolygonSymbolizer>
+            <se:Fill>
+              <se:SvgParameter name="fill">#d9bb7f</se:SvgParameter>
+            </se:Fill>
+          </se:PolygonSymbolizer>
+        </se:Rule>
+      </se:FeatureTypeStyle>
+    </UserStyle>
+  </NamedLayer>
+</StyledLayerDescriptor>

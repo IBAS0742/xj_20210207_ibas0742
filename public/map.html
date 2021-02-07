@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./lib/config/urls.js"></script>
+    <script src="./lib/index/initMapViews.js"></script>
+    <script src="./lib/index/apis.js"></script>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            border: none;
+        }
+        #mapContainer {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+<div id="mapContainer"></div>
+<script>
+    let debug = true;
+    let noMap = false;
+    initMapViews("./",function (ret) {
+            window.viewer = noMap ? "" : setBaseView("mapContainer",{ timeline: true });
+            window._map_on_click_ = function() {};
+            ret.initMarkerAndGraphicManager(window.viewer);
+            // ret.initMarkerAndGraphicManager(window.viewer,window._map_on_click_);
+            window.MarkerAndGraphicManager.panel.updateIconStatus({ polygon: true });
+            window.apis = new Apis().init(window.viewer,window.MarkerAndGraphicManager);
+            mapHandle.DrawHelper.initialViewer(window.viewer);
+            window.apis.initOk();
+            // window._map_on_click_ = function (obj) {
+            //     window.apis.mapOnClick(obj);
+            // }
+        },
+        [
+            // './request.js','./SelectionPanel.js','./SplitPanel.js'
+        ].map(_ => debug ? _ + "?t=" + (new Date().getTime()) : _),
+        [],{
+            noMap,
+            offset: {
+                x: 0,y: 0
+            },
+            _eChartConfig: ['bar','RangeLine','SimpleMultiLine','SanKey','ZoomBar','AnyEchart']
+        },"");
+</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+function DaHuQuNDVIInit() {
+
+}
+
+export {DaHuQuNDVIInit}
