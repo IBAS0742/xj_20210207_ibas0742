@@ -4,7 +4,7 @@ window.allUrls = {
     'label': 'http://10.10.1.132/basemap/标签/{z}/{x}/{y}.png',
     // 影像
     'image': 'http://10.10.1.132/basemap/影像/{z}/{x}/{y}.jpg',
-    'geoserver': 'http://10.10.1.132/basemap/:8080/geoserver/'
+    'geoserver': 'http://10.10.1.132:8080/geoserver/'
 }
 
 window.mapLayers = {
