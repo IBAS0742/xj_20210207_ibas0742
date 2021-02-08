@@ -31,5 +31,17 @@ window.mapLayers = {
                 format: 'image/png'
             }
         }
+    },
+    大湖区NDVI(year) {
+        return {
+            url: window.allUrls.geoserver + "dahuqu_net/wms",
+            layers: `dahuqu_net:ndvi${year}`,
+            params: {
+                styles: `dahuqu_net:ndvi`,
+                service: 'WMS',
+                transparent: true,
+                format: 'image/png'
+            }
+        }
     }
 };
