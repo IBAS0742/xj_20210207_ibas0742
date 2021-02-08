@@ -38,5 +38,8 @@ window.mapLayers = {
     },
     大湖区EVI(year) {
         return forTest__mapLayers(year);
+    },
+    大湖区NDVI(year) {
+        return forTest__mapLayers(year)
     }
 };
