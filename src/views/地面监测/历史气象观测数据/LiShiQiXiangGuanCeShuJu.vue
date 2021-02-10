@@ -1,5 +1,5 @@
 <template>
-    <ModelPage title="历史旗下观测数据" map-rate="0.664">
+    <ModelPage title="历史气象观测数据" map-rate="0.664">
         <div slot="left">
             <MultiSelection :selections="stations" @select="select"
                             height="800"></MultiSelection>
