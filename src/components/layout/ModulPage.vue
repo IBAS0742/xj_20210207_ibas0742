@@ -51,10 +51,11 @@
                         height: `${100 - 100 * this.mapRate}%`,
                         position: "absolute",
                         "z-index": 100000,
-                        width: `calc(100% - 300px)`,
+                        width: `100%`,
+                        background: '#e0e0e0'
                     };
                 }
-                console.log({topStyle,bottomStyle})
+                // console.log({topStyle,bottomStyle})
                 return {topStyle,bottomStyle}
             },
         },

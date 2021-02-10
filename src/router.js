@@ -2,9 +2,9 @@ import IndexView from "./views/index";
 import HuPoShuiMian from "./views/遥感影像监测/湖泊水面/HuPoShuiMian";
 import DaHuQuEVI from "./views/遥感影像监测/大湖区EVI/DaHuQuEVI";
 import DaHuQuNDVI from "./views/遥感影像监测/大湖区NDVI/DaHuQuNDVI";
-//import ShuiWenGuanCeZhan from "./views/地面监测/水文观测站/ShuiWenGuanCeZhan";
+import ShuiWenGuanCeZhan from "./views/地面监测/水文观测站/ShuiWenGuanCeZhan";
 //import ZhongYaShengTaiYuHuangJingYanJiuZhongXinQiXiangZhanDian from "./views/地面监测/中亚生态与环境研究中心气象站点/ZhongYaShengTaiYuHuangJingYanJiuZhongXinQiXiangZhanDian";
-//import LiShiQiXiangGuanCeShuJu from "./views/地面监测/历史气象观测数据/LiShiQiXiangGuanCeShuJu";
+import LiShiQiXiangGuanCeShuJu from "./views/地面监测/历史气象观测数据/LiShiQiXiangGuanCeShuJu";
 //import XianHaiYanChenJianCe from "./views/地面监测/咸海盐尘监测/XianHaiYanChenJianCe";
 //import TuYangCaiJi from "./views/地面监测/土样采集/TuYangCaiJi";
 //import ShuiYang from "./views/地面监测/水样/ShuiYang";
@@ -51,18 +51,18 @@ const routers = [
                 path: "DaHuQuNDVI",
                 component: DaHuQuNDVI
             },
-            //            {
-//                path: "ShuiWenGuanCeZhan",
-//                component: ShuiWenGuanCeZhan
-//            },
+                       {
+               path: "ShuiWenGuanCeZhan",
+               component: ShuiWenGuanCeZhan
+           },
 //            {
 //                path: "ZhongYaShengTaiYuHuangJingYanJiuZhongXinQiXiangZhanDian",
 //                component: ZhongYaShengTaiYuHuangJingYanJiuZhongXinQiXiangZhanDian
 //            },
-//            {
-//                path: "LiShiQiXiangGuanCeShuJu",
-//                component: LiShiQiXiangGuanCeShuJu
-//            },
+           {
+               path: "LiShiQiXiangGuanCeShuJu",
+               component: LiShiQiXiangGuanCeShuJu
+           },
 //            {
 //                path: "XianHaiYanChenJianCe",
 //                component: XianHaiYanChenJianCe

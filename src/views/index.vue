@@ -75,7 +75,16 @@
                 this.defaultPath = this.$route.fullPath.substring(1);
                 this.$router.push('/');
             }
-            InitMethods.setRouter(this.$router);
+            InitMethods.setRouter({
+                push(url) {
+                    if ($this.$route.fullPath === url || $this.$route.fullPath.substring(1) === url) {
+                        return false;
+                    } else {
+                        $this.$router.push(url);
+                        return true;
+                    }
+                }
+            });
             spop.init({
                 setDefault() {
                     $this.splitPC = 0.5;

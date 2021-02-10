@@ -5,7 +5,7 @@ import 'view-design/dist/styles/iview.css';
 import './libs/custom.css';
 import VueRouter from 'vue-router';
 import Routers from './router';
-import Util from './libs/util';
+import {title} from './libs/util';
 import { layoutConfig } from "./libs/layoutConfig";
 
 Vue.config.productionTip = false
@@ -27,7 +27,7 @@ router.beforeEach((to, from, next) => {
   } else {
     layoutConfig.defaultPath(to.fullPath);
   }
-  Util.title(to.meta.title);
+  title(to.meta.title);
   next();
 });
 

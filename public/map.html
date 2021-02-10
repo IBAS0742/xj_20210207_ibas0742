@@ -31,7 +31,15 @@
             window.MarkerAndGraphicManager.panel.updateIconStatus({ polygon: true });
             window.apis = new Apis().init(window.viewer,window.MarkerAndGraphicManager);
             mapHandle.DrawHelper.initialViewer(window.viewer);
-            window.apis.initOk();
+            let id = setInterval(() => {
+                window.apis.addMark({lat:1,lng:1},"","","",function (err) {
+                    if (!err) {
+                        window.apis.removeAll();
+                        window.apis.initOk();
+                        clearInterval(id);
+                    }
+                });
+            })
             // window._map_on_click_ = function (obj) {
             //     window.apis.mapOnClick(obj);
             // }

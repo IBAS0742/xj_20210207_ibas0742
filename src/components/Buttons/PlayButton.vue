@@ -21,18 +21,29 @@
         props: {
             speed: '',
             time: '',
+            bottom: {
+                default() {
+                    return true;
+                }
+            }
         },
         data() {
+            let playBtnDivStyle = {
+                background: playBtn,
+                "box-sizing": "border-box",
+                width: "291px",
+                height: "139px",
+                padding: "auto",
+                margin: "4.5px",
+                "background-size":"100% 100%",
+            }
+            if (this.bottom) {
+                playBtnDivStyle.margin = "4.5px";
+                playBtnDivStyle.position = "absolute";
+                playBtnDivStyle.bottom = "5px";
+            }
             return {
-                playBtnDivStyle: {
-                    background: playBtn,
-                    "box-sizing": "border-box",
-                    width: "291px",
-                    height: "139px",
-                    padding: "5px",
-                    margin: "auto",
-                    "background-size":"100% 100%"
-                }
+                playBtnDivStyle
             }
         },
         methods: {

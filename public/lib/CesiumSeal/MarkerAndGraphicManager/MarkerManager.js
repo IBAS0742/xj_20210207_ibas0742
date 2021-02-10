@@ -268,13 +268,20 @@ class MarkerManager {
             if (ret && 'id' in ret) {
                 let id = ret.id;
                 setTimeout(() => {
-                    $this.manager.get(id).description = description || "暂无";
-                    $this.manager.get(id).text = text || "暂无";
-                    $this.manager.get(id).info = info || "暂无";
-                    (cb || (()=>{}))();
+                    let obj = $this.manager.get(id);
+                    if (obj) {
+                        obj.description = description || "暂无";
+                        obj.text = text || "暂无";
+                        obj.info = info || "暂无";
+                        (cb || (()=>{}))();
+                    } else {
+                        (cb || (()=>{}))({error: '找不到对象'});
+                    }
+
                 });
             } else {
                 console.warn("返回内容错误")
+                (cb || (()=>{}))({error:'返回内容错误'});
             }
         })({position});
     }

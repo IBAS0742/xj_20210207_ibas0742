@@ -1,9 +1,9 @@
 import { HuPoShuiMianInit } from "./遥感影像监测/湖泊水面/init";
 import { DaHuQuNDVIInit } from "./遥感影像监测/大湖区NDVI/init";
 import { DaHuQuEVIInit } from "./遥感影像监测/大湖区EVI/init";
-//import { ShuiWenGuanCeZhanInit } from "./地面监测/水文观测站/init";
+import { ShuiWenGuanCeZhanInit } from "./地面监测/水文观测站/init";
 //import { ZhongYaShengTaiYuHuangJingYanJiuZhongXinQiXiangZhanDianInit } from "./地面监测/中亚生态与环境研究中心气象站点/init";
-//import { LiShiQiXiangGuanCeShuJuInit } from "./地面监测/历史气象观测数据/init";
+import { LiShiQiXiangGuanCeShuJuInit } from "./地面监测/历史气象观测数据/init";
 //import { XianHaiYanChenJianCeInit } from "./地面监测/咸海盐尘监测/init";
 //import { TuYangCaiJiInit } from "./地面监测/土样采集/init";
 //import { ShuiYangInit } from "./地面监测/水样/init";
@@ -55,157 +55,157 @@ const InitMethods = new (class {
             case "湖泊水面":
             case "HuPoShuiMian":
                 HuPoShuiMianInit();
-                this.router.push("HuPoShuiMian");
+                jump = this.router.push("HuPoShuiMian");
                 break;
             case "大湖区EVI":
             case "DaHuQuEVI":
                 DaHuQuEVIInit();
-                this.router.push("DaHuQuEVI");
+                jump = this.router.push("DaHuQuEVI");
                 break;
             case "DaHuQuNDVI":
             case "大湖区NDVI":
                 DaHuQuNDVIInit();
-                this.router.push("DaHuQuNDVI");
+                jump = this.router.push("DaHuQuNDVI");
                 break;
-//            case "水文观测站":
-//                case "ShuiWenGuanCeZhan":
-//                ShuiWenGuanCeZhanInit();
-//                this.router.push("ShuiWenGuanCeZhan");
-//                break;
+           case "水文观测站":
+               case "ShuiWenGuanCeZhan":
+               ShuiWenGuanCeZhanInit();
+               jump = this.router.push("ShuiWenGuanCeZhan");
+               break;
 //            case "中亚生态与环境研究中心气象站点":
 //                case "ZhongYaShengTaiYuHuangJingYanJiuZhongXinQiXiangZhanDian":
 //                ZhongYaShengTaiYuHuangJingYanJiuZhongXinQiXiangZhanDianInit();
-//                this.router.push("ZhongYaShengTaiYuHuangJingYanJiuZhongXinQiXiangZhanDian");
+//                jump = this.router.push("ZhongYaShengTaiYuHuangJingYanJiuZhongXinQiXiangZhanDian");
 //                break;
-//            case "历史气象观测数据":
-//                case "LiShiQiXiangGuanCeShuJu":
-//                LiShiQiXiangGuanCeShuJuInit();
-//                this.router.push("LiShiQiXiangGuanCeShuJu");
-//                break;
+           case "历史气象观测数据":
+               case "LiShiQiXiangGuanCeShuJu":
+               LiShiQiXiangGuanCeShuJuInit();
+               jump = this.router.push("LiShiQiXiangGuanCeShuJu");
+               break;
 //            case "咸海盐尘监测":
 //                case "XianHaiYanChenJianCe":
 //                XianHaiYanChenJianCeInit();
-//                this.router.push("XianHaiYanChenJianCe");
+//                jump = this.router.push("XianHaiYanChenJianCe");
 //                break;
 //            case "土样采集":
 //                case "TuYangCaiJi":
 //                TuYangCaiJiInit();
-//                this.router.push("TuYangCaiJi");
+//                jump = this.router.push("TuYangCaiJi");
 //                break;
 //            case "水样":
 //                case "ShuiYang":
 //                ShuiYangInit();
-//                this.router.push("ShuiYang");
+//                jump = this.router.push("ShuiYang");
 //                break;
 //            case "干旱指数":
 //                case "GanHanZhiShu":
 //                GanHanZhiShuInit();
-//                this.router.push("GanHanZhiShu");
+//                jump = this.router.push("GanHanZhiShu");
 //                break;
 //            case "蒸散发":
 //                case "ZhengSanFa":
 //                ZhengSanFaInit();
-//                this.router.push("ZhengSanFa");
+//                jump = this.router.push("ZhengSanFa");
 //                break;
 //            case "大湖区TGDVI":
 //                case "DaHuQuTGDVI":
 //                DaHuQuTGDVIInit();
-//                this.router.push("DaHuQuTGDVI");
+//                jump = this.router.push("DaHuQuTGDVI");
 //                break;
 //            case "社会经济":
 //                case "SheHuiJingJi":
 //                SheHuiJingJiInit();
-//                this.router.push("SheHuiJingJi");
+//                jump = this.router.push("SheHuiJingJi");
 //                break;
 //            case "社会经济用水预测":
 //                case "SheHuiJingJiYongShuiYuCe":
 //                SheHuiJingJiYongShuiYuCeInit();
-//                this.router.push("SheHuiJingJiYongShuiYuCe");
+//                jump = this.router.push("SheHuiJingJiYongShuiYuCe");
 //                break;
 //            case "种植结构":
 //                case "ZhongZhiJieGou":
 //                ZhongZhiJieGouInit();
-//                this.router.push("ZhongZhiJieGou");
+//                jump = this.router.push("ZhongZhiJieGou");
 //                break;
 //            case "土地利用":
 //                case "TuDiLiYong":
 //                TuDiLiYongInit();
-//                this.router.push("TuDiLiYong");
+//                jump = this.router.push("TuDiLiYong");
 //                break;
 //            case "河道流量(SWAT)":
 //                case "HeDaoLiuLiangSWAT":
 //                HeDaoLiuLiangSWATInit();
-//                this.router.push("HeDaoLiuLiangSWAT");
+//                jump = this.router.push("HeDaoLiuLiangSWAT");
 //                break;
 //            case "咸海水资源":
 //                case "XianHaiShuiZiYuan":
 //                XianHaiShuiZiYuanInit();
-//                this.router.push("XianHaiShuiZiYuan");
+//                jump = this.router.push("XianHaiShuiZiYuan");
 //                break;
 //            case "咸海湖盆地表变化":
 //                case "XianHaiHuPenDiBiaoBianHua":
 //                XianHaiHuPenDiBiaoBianHuaInit();
-//                this.router.push("XianHaiHuPenDiBiaoBianHua");
+//                jump = this.router.push("XianHaiHuPenDiBiaoBianHua");
 //                break;
 //            case "咸海湖区水文-生态-环境模拟":
 //                case "XianHaiHuQuShuiWen-ShengTai-HuanJingMoNi":
 //                XianHaiHuQuShuiWen-ShengTai-HuanJingMoNiInit();
-//                this.router.push("XianHaiHuQuShuiWen-ShengTai-HuanJingMoNi");
+//                jump = this.router.push("XianHaiHuQuShuiWen-ShengTai-HuanJingMoNi");
 //                break;
 //            case "中亚植被功能":
 //                case "ZhongYaZhiBeiGongNeng":
 //                ZhongYaZhiBeiGongNengInit();
-//                this.router.push("ZhongYaZhiBeiGongNeng");
+//                jump = this.router.push("ZhongYaZhiBeiGongNeng");
 //                break;
 //            case "中亚土壤功能":
 //                case "ZhongYaTuRangGongNeng":
 //                ZhongYaTuRangGongNengInit();
-//                this.router.push("ZhongYaTuRangGongNeng");
+//                jump = this.router.push("ZhongYaTuRangGongNeng");
 //                break;
 //            case "咸海流域生态服务功能评估":
 //                case "XianHaiLiuYuShengTaiFuWuGongNengPingGu":
 //                XianHaiLiuYuShengTaiFuWuGongNengPingGuInit();
-//                this.router.push("XianHaiLiuYuShengTaiFuWuGongNengPingGu");
+//                jump = this.router.push("XianHaiLiuYuShengTaiFuWuGongNengPingGu");
 //                break;
 //            case "咸海流域生态服务价值评估":
 //                case "XianHaiLiuYuShengTaiFuWuJiaZhiPingGu":
 //                XianHaiLiuYuShengTaiFuWuJiaZhiPingGuInit();
-//                this.router.push("XianHaiLiuYuShengTaiFuWuJiaZhiPingGu");
+//                jump = this.router.push("XianHaiLiuYuShengTaiFuWuJiaZhiPingGu");
 //                break;
 //            case "咸海流域历史干旱风险(1940-2010)":
 //                case "XianHaiLiuYuLiShiGanHanFengXian1940-2010":
 //                XianHaiLiuYuLiShiGanHanFengXian1940-2010Init();
-//                this.router.push("XianHaiLiuYuLiShiGanHanFengXian1940-2010");
+//                jump = this.router.push("XianHaiLiuYuLiShiGanHanFengXian1940-2010");
 //                break;
 //            case "咸海流域未来干旱风险(2020-2050)":
 //                case "XianHaiLiuYuWeiLaiGanHanFengXian2020-2050":
 //                XianHaiLiuYuWeiLaiGanHanFengXian2020-2050Init();
-//                this.router.push("XianHaiLiuYuWeiLaiGanHanFengXian2020-2050");
+//                jump = this.router.push("XianHaiLiuYuWeiLaiGanHanFengXian2020-2050");
 //                break;
 //            case "中亚生态环境系统风险评估":
 //                case "ZhongYaShengTaiHuanJingXiTongFengXianPingGu":
 //                ZhongYaShengTaiHuanJingXiTongFengXianPingGuInit();
-//                this.router.push("ZhongYaShengTaiHuanJingXiTongFengXianPingGu");
+//                jump = this.router.push("ZhongYaShengTaiHuanJingXiTongFengXianPingGu");
 //                break;
 //            case "土地利用变化":
 //                case "TuDiLiYongBianHua":
 //                TuDiLiYongBianHuaInit();
-//                this.router.push("TuDiLiYongBianHua");
+//                jump = this.router.push("TuDiLiYongBianHua");
 //                break;
 //            case "水资源分配":
 //                case "ShuiZiYuanFenPei":
 //                ShuiZiYuanFenPeiInit();
-//                this.router.push("ShuiZiYuanFenPei");
+//                jump = this.router.push("ShuiZiYuanFenPei");
 //                break;
 //            case "生态系统服务运算结果":
 //                case "ShengTaiXiTongFuWuYunSuanJieGuo":
 //                ShengTaiXiTongFuWuYunSuanJieGuoInit();
-//                this.router.push("ShengTaiXiTongFuWuYunSuanJieGuo");
+//                jump = this.router.push("ShengTaiXiTongFuWuYunSuanJieGuo");
 //                break;
 //            case "生态系统服务目标实现率":
 //                case "ShengTaiXiTongFuWuMuBiaoShiXianLv":
 //                ShengTaiXiTongFuWuMuBiaoShiXianLvInit();
-//                this.router.push("ShengTaiXiTongFuWuMuBiaoShiXianLv");
+//                jump = this.router.push("ShengTaiXiTongFuWuMuBiaoShiXianLv");
 //                break;
             default:
                 console.warn("指定路径不存在或未定义，请确认");

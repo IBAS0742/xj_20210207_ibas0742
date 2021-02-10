@@ -21,6 +21,13 @@ class Apis {
             "LABEL"(){},
             "MODEL"(){},
         };
+        this._nullMagmMethods = {
+            "MARKER"(){},
+            "POLYLINE"(){},
+            "POLYGON"(){},
+            "LABEL"(){},
+            "MODEL"(){},
+        };
         this._defaultPlayTime = 3600 * 24; // 默认的播放速度
         // 地图点击回调
         this._mapOnClickCallBack = ()=>{};
@@ -51,13 +58,23 @@ class Apis {
                 if (!obj.id.gvid) {
                     return;
                 }
-                let geojson = window.MarkerAndGraphicManager.GraphicManager.get(obj.id.gvid).toGeoJson();
-                this._magmMethods[i]($markerManager,obj,geojson)
+                let gobj = window.MarkerAndGraphicManager.GraphicManager.get(obj.id.gvid);
+                let geojson = null;
+                if (gobj) {
+                    geojson = gobj.toGeoJson();
+                } else {
+                    gobj = window.MarkerAndGraphicManager.MarkManager.get(obj.id.gvid);
+                    if (gobj) {
+                        geojson = gobj.toGeoJson();
+                    }
+                }
+                this._magmMethods[i]($markerManager,obj,gobj,geojson)
             });
         }
         return this;
     }
     initOk() {
+        console.clear();
         this._parentWindows.initOk();
     }
     _createId() {
@@ -127,6 +144,22 @@ class Apis {
     }
 
     /**
+     * 添加标记
+     * @param coord {lat:123,lng:456}
+     * @param title 标题
+     * @param description 描述
+     * */
+    addMark(coord,title,description,info,cb) {
+        let p = CVT.Wgs842Pixel(coord,this.viewer);
+        this._magm.usual.addMarker(p,{
+            text: title,
+            description,
+            info
+        },cb);
+    }
+    getGrapicObj() {}
+
+    /**
      * @param startTime     2020-1-1
      * @param endTime       2020-1-31
      * @param url           参考 addSingleLayer @param url
@@ -181,6 +214,7 @@ class Apis {
      *      {
      *          // magm 是 MarkerAndGraphicManager 对象
      *          // obj  是 lib/CesiumSeal/MarkerAndGraphicManager/ 下定义的 Graphic 对象
+     *          // gobj 是 Graphic 对象的实例
      *          // geojson 是 obj 对象的 geojson
      *          "POLYGON"(magm,obj,geojson) {},
      *          // 目前实现的对象有 "MARKER", "POLYLINE", "POLYGON", "LABEL", "MODEL"
@@ -275,6 +309,13 @@ class Apis {
         ,this.viewer)
     }
 
+    flyToLatLng(lat,lng,height) {
+        this.viewer.camera.flyTo({
+            destination : Cesium.Cartesian3.fromDegrees(lng,lat, height || 35000.0),
+            duration: 1,
+        });
+    }
+
     createEntityAndCss3Rnederer() {
         let eAndc = {
             entity: window.mapHandle.createEntity(),
@@ -351,5 +392,6 @@ class Apis {
             return false;
         });
         this.bindPickerMethod(()=>{});
+        this.updateMagmMethod(this._nullMagmMethods);
     }
 }
