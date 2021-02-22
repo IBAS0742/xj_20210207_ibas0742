@@ -1,5 +1,7 @@
 class Apis {
-    constructor() {
+    // destination 地图初始化看到的位置和缩放等级
+    constructor(baseView) {
+        this._baseView = baseView;
         this._parentWindows = null;
         this.viewer = null;
         this._layerIds = {
@@ -365,6 +367,7 @@ class Apis {
 
     // 销毁全部内容，在使用新模块时调用
     removeAll() {
+        this.viewer.camera.setView(this._baseView);
         this._layerIds.imageryProvider = this._layerIds.imageryProvider.filter(id => {
             for (let i = 0;i < this.viewer.imageryLayers._layers.length;i++) {
                 if (this.viewer.imageryLayers._layers[i]._imageryProvider.id === id) {

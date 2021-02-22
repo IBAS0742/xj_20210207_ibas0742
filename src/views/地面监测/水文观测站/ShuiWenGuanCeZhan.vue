@@ -131,6 +131,7 @@
                         });
                     });
                 }
+                $this.select('option',{},0,0);
                 window.mapApis.updateMagmMethod({
                     MARKER(m,obj,gobj,geo) {
                         if (gobj) {

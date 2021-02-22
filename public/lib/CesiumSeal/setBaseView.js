@@ -63,7 +63,7 @@ function setBaseView(viewer,optioins,center,hideTimeLine) {
             return Cesium.Cartesian3.fromDegrees(65, 45, 4000000);
         }
     })(center);
-    viewer.scene.camera.setView({
+    const baseView = {
         // 初始化相机经纬度
         destination: destination,//Cesium.Cartesian3.fromDegrees(65, 45, 4000000),
         orientation: {
@@ -71,7 +71,8 @@ function setBaseView(viewer,optioins,center,hideTimeLine) {
             pitch: -1.57072018602691, //从上往下看为-90
             roll: 0
         }
-    });
+    };
+    viewer.scene.camera.setView(baseView);
 
     // 删除版权信息和小时钟
     setTimeout(function () {
@@ -229,5 +230,8 @@ function setBaseView(viewer,optioins,center,hideTimeLine) {
         hideTimeLine ? viewer.hideTimeLie() : '';
         viewer.stopClock();
     },500);
-    return viewer;
+    return {
+        viewer,
+        baseView
+    };
 }

@@ -114,7 +114,7 @@ const requestTItemsAndOption = name => new Promise(s => {
             trigger: 'axis'
         },
         legend: {
-            data: ['溫度(max)','溫度(min)','溫度(avg)']
+            data: ['最大值','最小值','平均值']
         },
         grid: {
             left: '3%',

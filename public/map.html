@@ -24,12 +24,13 @@
     let debug = true;
     let noMap = false;
     initMapViews("./",function (ret) {
-            window.viewer = noMap ? "" : setBaseView("mapContainer",{ timeline: true });
+            let obj = noMap ? "" : setBaseView("mapContainer",{ timeline: true });
+            window.viewer = obj.viewer;
             window._map_on_click_ = function() {};
             ret.initMarkerAndGraphicManager(window.viewer);
             // ret.initMarkerAndGraphicManager(window.viewer,window._map_on_click_);
             window.MarkerAndGraphicManager.panel.updateIconStatus({ polygon: true });
-            window.apis = new Apis().init(window.viewer,window.MarkerAndGraphicManager);
+            window.apis = new Apis(obj.baseView).init(window.viewer,window.MarkerAndGraphicManager);
             mapHandle.DrawHelper.initialViewer(window.viewer);
             let id = setInterval(() => {
                 window.apis.addMark({lat:1,lng:1},"","","",function (err) {

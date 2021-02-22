@@ -280,7 +280,7 @@ class MarkerManager {
 
                 });
             } else {
-                console.warn("返回内容错误")
+                console.warn("返回内容错误");
                 (cb || (()=>{}))({error:'返回内容错误'});
             }
         })({position});

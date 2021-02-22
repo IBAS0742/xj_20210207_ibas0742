@@ -482,17 +482,17 @@ const InitMethods = new (class {
             case "湖泊水面":
             case "HuPoShuiMian":
                 HuPoShuiMianInit();
-                this.router.push("HuPoShuiMian");
+                jump = () => this.router.push("HuPoShuiMian");
                 break;
             case "大湖区EVI":
             case "DaHuQuEVI":
                 DaHuQuEVIInit();
-                this.router.push("DaHuQuEVI");
+                jump = () => this.router.push("DaHuQuEVI");
                 break;
             case "DaHuQuNDVI":
             case "大湖区NDVI":
                 DaHuQuNDVIInit();
-                this.router.push("DaHuQuNDVI");
+                jump = () => this.router.push("DaHuQuNDVI");
                 break;
 $case$
             default:
@@ -505,6 +505,7 @@ $case$
                 console.warn("可能是一个异常，第一次调用不可用是正常的");
             } else {
                 window.mapApis.removeAll();
+                setTimeout(jump,500);
             }
         }
     }
@@ -537,7 +538,7 @@ let buildRouter = () => {
             caseStr.push(`//            case "${mm.name}":
 //                case "${mm.eName}":
 //                ${mm.eName}Init();
-//                this.router.push("${mm.eName}");
+//                jump = () => this.router.push("${mm.eName}");
 //                break;`);
         });
     });
