@@ -1,0 +1,1329 @@
+var LocationMapping = {
+    "咸海": "xh",
+    "尤阿雷": "yal",
+    "卡萨雷": "ksl",
+    "克孜勒奥尔达": "aed",
+    "斯瑞克拉巴特": "lbt",
+    "朱萨雷": "zsl",
+    "卡拉克": "klk",
+};
+
+const stations = [
+    {
+        title: "盐尘发生观测场地",
+        sub: [
+            { title: "乌孜别克斯坦", key: "1" ,long: "61.75", lat: "46.89" },
+            { title: "哈萨克斯坦", key: "2"  ,long: "61.25", lat: "44.78"},
+        ]
+    },
+    {
+        title: "降尘监测点",
+        sub: [
+            { title: "playa", key: "3"  ,long: "62.22", lat: "45.86"},
+            { title: "nplaya", key: "4"  ,long: "65.61", lat: "44.95"},
+            { title: "arslsk", key: "5"  ,long: "64.18", lat: "45.59"},
+        ]
+    },
+];
+
+//#站点信息
+//字段： 站点名 经度 纬度
+const _STATION = [
+    {
+        title: "咸海",
+        long: "61.65",
+        lat: "46.79"
+    },
+    {
+        title: "尤阿雷",
+        long: "61.15",
+        lat: "44.58"
+    },
+    {
+        title: "卡萨雷",
+        long: "62.12",
+        lat: "45.76"
+    },
+    {
+        title: "克孜勒奥尔达",
+        long: "65.51",
+        lat: "44.85"
+    },
+    {
+        title: "斯瑞克拉巴特",
+        long: "62.91",
+        lat: "44.08"
+    },
+    {
+        title: "朱萨雷",
+        long: "64.08",
+        lat: "45.49"
+    },
+    {
+        title: "卡拉克",
+        long: "63.16",
+        lat: "44.88"
+    }
+];
+
+//#沙尘暴发生次数
+//字段: 站点名 年份 次数
+const _FSCS = [{
+    "year": "1966",
+    "count": "109",
+    "name": "咸海"
+}, {
+    "year": "1967",
+    "count": "80",
+    "name": "咸海"
+}, {
+    "year": "1968",
+    "count": "86",
+    "name": "咸海"
+}, {
+    "year": "1969",
+    "count": "76",
+    "name": "咸海"
+}, {
+    "year": "1970",
+    "count": "77",
+    "name": "咸海"
+}, {
+    "year": "1971",
+    "count": "58",
+    "name": "咸海"
+}, {
+    "year": "1972",
+    "count": "99",
+    "name": "咸海"
+}, {
+    "year": "1973",
+    "count": "49",
+    "name": "咸海"
+}, {
+    "year": "1974",
+    "count": "59",
+    "name": "咸海"
+}, {
+    "year": "1975",
+    "count": "72",
+    "name": "咸海"
+}, {
+    "year": "1976",
+    "count": "79",
+    "name": "咸海"
+}, {
+    "year": "1977",
+    "count": "79",
+    "name": "咸海"
+}, {
+    "year": "1978",
+    "count": "105",
+    "name": "咸海"
+}, {
+    "year": "1979",
+    "count": "89",
+    "name": "咸海"
+}, {
+    "year": "1980",
+    "count": "59",
+    "name": "咸海"
+}, {
+    "year": "1981",
+    "count": "51",
+    "name": "咸海"
+}, {
+    "year": "1982",
+    "count": "59",
+    "name": "咸海"
+}, {
+    "year": "1983",
+    "count": "101",
+    "name": "咸海"
+}, {
+    "year": "1984",
+    "count": "115",
+    "name": "咸海"
+}, {
+    "year": "1985",
+    "count": "137",
+    "name": "咸海"
+}, {
+    "year": "1986",
+    "count": "85",
+    "name": "咸海"
+}, {
+    "year": "1987",
+    "count": "77",
+    "name": "咸海"
+}, {
+    "year": "1988",
+    "count": "93",
+    "name": "咸海"
+}, {
+    "year": "1989",
+    "count": "85",
+    "name": "咸海"
+}, {
+    "year": "1990",
+    "count": "96",
+    "name": "咸海"
+}, {
+    "year": "1991",
+    "count": "115",
+    "name": "咸海"
+}, {
+    "year": "1992",
+    "count": "69",
+    "name": "咸海"
+}, {
+    "year": "1966",
+    "count": "5",
+    "name": "尤阿雷"
+}, {
+    "year": "1967",
+    "count": "1",
+    "name": "尤阿雷"
+}, {
+    "year": "1968",
+    "count": "3",
+    "name": "尤阿雷"
+}, {
+    "year": "1969",
+    "count": "4",
+    "name": "尤阿雷"
+}, {
+    "year": "1970",
+    "count": "35",
+    "name": "尤阿雷"
+}, {
+    "year": "1971",
+    "count": "51",
+    "name": "尤阿雷"
+}, {
+    "year": "1972",
+    "count": "83",
+    "name": "尤阿雷"
+}, {
+    "year": "1973",
+    "count": "48",
+    "name": "尤阿雷"
+}, {
+    "year": "1974",
+    "count": "27",
+    "name": "尤阿雷"
+}, {
+    "year": "1975",
+    "count": "85",
+    "name": "尤阿雷"
+}, {
+    "year": "1976",
+    "count": "39",
+    "name": "尤阿雷"
+}, {
+    "year": "1977",
+    "count": "35",
+    "name": "尤阿雷"
+}, {
+    "year": "1978",
+    "count": "5",
+    "name": "尤阿雷"
+}, {
+    "year": "1979",
+    "count": "21",
+    "name": "尤阿雷"
+}, {
+    "year": "1980",
+    "count": "17",
+    "name": "尤阿雷"
+}, {
+    "year": "1981",
+    "count": "6",
+    "name": "尤阿雷"
+}, {
+    "year": "1982",
+    "count": "1",
+    "name": "尤阿雷"
+}, {
+    "year": "1983",
+    "count": "13",
+    "name": "尤阿雷"
+}, {
+    "year": "1984",
+    "count": "48",
+    "name": "尤阿雷"
+}, {
+    "year": "1985",
+    "count": "6",
+    "name": "尤阿雷"
+}, {
+    "year": "1986",
+    "count": "12",
+    "name": "尤阿雷"
+}, {
+    "year": "1987",
+    "count": "9",
+    "name": "尤阿雷"
+}, {
+    "year": "1988",
+    "count": "10",
+    "name": "尤阿雷"
+}, {
+    "year": "1989",
+    "count": "10",
+    "name": "尤阿雷"
+}, {
+    "year": "1990",
+    "count": "18",
+    "name": "尤阿雷"
+}, {
+    "year": "1991",
+    "count": "14",
+    "name": "尤阿雷"
+}, {
+    "year": "1992",
+    "count": "6",
+    "name": "尤阿雷"
+}, {
+    "year": "1966",
+    "count": "55",
+    "name": "卡萨雷"
+}, {
+    "year": "1967",
+    "count": "46",
+    "name": "卡萨雷"
+}, {
+    "year": "1968",
+    "count": "36",
+    "name": "卡萨雷"
+}, {
+    "year": "1969",
+    "count": "25",
+    "name": "卡萨雷"
+}, {
+    "year": "1970",
+    "count": "30",
+    "name": "卡萨雷"
+}, {
+    "year": "1971",
+    "count": "23",
+    "name": "卡萨雷"
+}, {
+    "year": "1972",
+    "count": "10",
+    "name": "卡萨雷"
+}, {
+    "year": "1973",
+    "count": "10",
+    "name": "卡萨雷"
+}, {
+    "year": "1974",
+    "count": "22",
+    "name": "卡萨雷"
+}, {
+    "year": "1975",
+    "count": "17",
+    "name": "卡萨雷"
+}, {
+    "year": "1976",
+    "count": "14",
+    "name": "卡萨雷"
+}, {
+    "year": "1977",
+    "count": "14",
+    "name": "卡萨雷"
+}, {
+    "year": "1978",
+    "count": "3",
+    "name": "卡萨雷"
+}, {
+    "year": "1979",
+    "count": "11",
+    "name": "卡萨雷"
+}, {
+    "year": "1980",
+    "count": "5",
+    "name": "卡萨雷"
+}, {
+    "year": "1981",
+    "count": "1",
+    "name": "卡萨雷"
+}, {
+    "year": "1982",
+    "count": "0",
+    "name": "卡萨雷"
+}, {
+    "year": "1983",
+    "count": "0",
+    "name": "卡萨雷"
+}, {
+    "year": "1984",
+    "count": "4",
+    "name": "卡萨雷"
+}, {
+    "year": "1985",
+    "count": "2",
+    "name": "卡萨雷"
+}, {
+    "year": "1986",
+    "count": "1",
+    "name": "卡萨雷"
+}, {
+    "year": "1987",
+    "count": "0",
+    "name": "卡萨雷"
+}, {
+    "year": "1988",
+    "count": "0",
+    "name": "卡萨雷"
+}, {
+    "year": "1989",
+    "count": "2",
+    "name": "卡萨雷"
+}, {
+    "year": "1990",
+    "count": "0",
+    "name": "卡萨雷"
+}, {
+    "year": "1991",
+    "count": "0",
+    "name": "卡萨雷"
+}, {
+    "year": "1992",
+    "count": "0",
+    "name": "卡萨雷"
+}, {
+    "year": "1966",
+    "count": "62",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1967",
+    "count": "64",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1968",
+    "count": "70",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1969",
+    "count": "42",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1970",
+    "count": "61",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1971",
+    "count": "40",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1972",
+    "count": "41",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1973",
+    "count": "38",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1974",
+    "count": "60",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1975",
+    "count": "95",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1976",
+    "count": "47",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1977",
+    "count": "64",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1978",
+    "count": "69",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1979",
+    "count": "59",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1980",
+    "count": "55",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1981",
+    "count": "58",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1982",
+    "count": "51",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1983",
+    "count": "48",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1984",
+    "count": "72",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1985",
+    "count": "71",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1986",
+    "count": "69",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1987",
+    "count": "60",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1988",
+    "count": "111",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1989",
+    "count": "122",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1990",
+    "count": "93",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1991",
+    "count": "99",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1992",
+    "count": "110",
+    "name": "克孜勒奥尔达"
+}, {
+    "year": "1966",
+    "count": "15",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1967",
+    "count": "19",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1968",
+    "count": "26",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1969",
+    "count": "13",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1970",
+    "count": "19",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1971",
+    "count": "20",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1972",
+    "count": "29",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1973",
+    "count": "6",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1974",
+    "count": "12",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1975",
+    "count": "21",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1976",
+    "count": "9",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1977",
+    "count": "7",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1978",
+    "count": "2",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1979",
+    "count": "1",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1980",
+    "count": "2",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1981",
+    "count": "2",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1982",
+    "count": "1",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1983",
+    "count": "0",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1984",
+    "count": "0",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1985",
+    "count": "0",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1986",
+    "count": "8",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1987",
+    "count": "5",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1988",
+    "count": "0",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1989",
+    "count": "3",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1990",
+    "count": "7",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1991",
+    "count": "13",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1992",
+    "count": "0",
+    "name": "斯瑞克拉巴特"
+}, {
+    "year": "1966",
+    "count": "30",
+    "name": "朱萨雷"
+}, {
+    "year": "1967",
+    "count": "19",
+    "name": "朱萨雷"
+}, {
+    "year": "1968",
+    "count": "31",
+    "name": "朱萨雷"
+}, {
+    "year": "1969",
+    "count": "19",
+    "name": "朱萨雷"
+}, {
+    "year": "1970",
+    "count": "37",
+    "name": "朱萨雷"
+}, {
+    "year": "1971",
+    "count": "35",
+    "name": "朱萨雷"
+}, {
+    "year": "1972",
+    "count": "13",
+    "name": "朱萨雷"
+}, {
+    "year": "1973",
+    "count": "15",
+    "name": "朱萨雷"
+}, {
+    "year": "1974",
+    "count": "8",
+    "name": "朱萨雷"
+}, {
+    "year": "1975",
+    "count": "13",
+    "name": "朱萨雷"
+}, {
+    "year": "1976",
+    "count": "16",
+    "name": "朱萨雷"
+}, {
+    "year": "1977",
+    "count": "25",
+    "name": "朱萨雷"
+}, {
+    "year": "1978",
+    "count": "13",
+    "name": "朱萨雷"
+}, {
+    "year": "1979",
+    "count": "22",
+    "name": "朱萨雷"
+}, {
+    "year": "1980",
+    "count": "18",
+    "name": "朱萨雷"
+}, {
+    "year": "1981",
+    "count": "9",
+    "name": "朱萨雷"
+}, {
+    "year": "1982",
+    "count": "4",
+    "name": "朱萨雷"
+}, {
+    "year": "1983",
+    "count": "3",
+    "name": "朱萨雷"
+}, {
+    "year": "1984",
+    "count": "6",
+    "name": "朱萨雷"
+}, {
+    "year": "1985",
+    "count": "10",
+    "name": "朱萨雷"
+}, {
+    "year": "1986",
+    "count": "18",
+    "name": "朱萨雷"
+}, {
+    "year": "1987",
+    "count": "13",
+    "name": "朱萨雷"
+}, {
+    "year": "1988",
+    "count": "55",
+    "name": "朱萨雷"
+}, {
+    "year": "1989",
+    "count": "13",
+    "name": "朱萨雷"
+}, {
+    "year": "1990",
+    "count": "9",
+    "name": "朱萨雷"
+}, {
+    "year": "1991",
+    "count": "4",
+    "name": "朱萨雷"
+}];
+
+//#沙尘输送量
+//字段: 气象站名 沙尘暴沙尘量 沙尘暴均方差 沙尘暴变异系数
+// 风流沙沙尘量 风流沙均方差 风流沙变异系数
+// 沙尘暴与风流沙沙尘量 沙尘暴与风流沙均方差 沙尘暴与风流沙变异系数
+const _SSL = [{
+    "scl1": "6619",
+    "jfpc3": "3486",
+    "byxs1": "0.42",
+    "scl3": "7653",
+    "scl2": "1034",
+    "jfpc2": "1097",
+    "jfpc1": "2764",
+    "name": "咸海",
+    "byxs3": "0.46",
+    "byxs2": "1.06"
+}, {
+    "scl1": "3256",
+    "jfpc3": "6313",
+    "byxs1": "1",
+    "scl3": "5961",
+    "scl2": "2708",
+    "jfpc2": "3645",
+    "jfpc1": "3630",
+    "name": "龙阿雷",
+    "byxs3": "1.06",
+    "byxs2": "1.35"
+}, {
+    "scl1": "129",
+    "jfpc3": "577",
+    "byxs1": "1.49",
+    "scl3": "428",
+    "scl2": "299",
+    "jfpc2": "409",
+    "jfpc1": "188",
+    "name": "卡萨雷",
+    "byxs3": "1.35",
+    "byxs2": "1.41"
+}, {
+    "scl1": "986",
+    "jfpc3": "1238",
+    "byxs1": "0.72",
+    "scl3": "1940",
+    "scl2": "959",
+    "jfpc2": "720",
+    "jfpc1": "703",
+    "name": "克孜勒奥尔达",
+    "byxs3": "0.64",
+    "byxs2": "0.75"
+}, {
+    "scl1": "4272",
+    "jfpc3": "5880",
+    "byxs1": "1.37",
+    "scl3": "4344",
+    "scl2": "48",
+    "jfpc2": "84",
+    "jfpc1": "5846",
+    "name": "朱萨雷",
+    "byxs3": "1.35",
+    "byxs2": "1.75"
+}, {
+    "scl1": "722",
+    "jfpc3": "873",
+    "byxs1": "1.21",
+    "scl3": "724",
+    "scl2": "2",
+    "jfpc2": "3",
+    "jfpc1": "871",
+    "name": "斯瑞克拉巴特",
+    "byxs3": "1.21",
+    "byxs2": "1.8"
+}];
+
+//#历史平均沙尘输送量
+//字段: 气象站名 方向 值
+const _PJSSL = [{
+    "val": "78",
+    "name": "咸海",
+    "direction": "0"
+}, {
+    "val": "221",
+    "name": "咸海",
+    "direction": "22.5"
+}, {
+    "val": "359",
+    "name": "咸海",
+    "direction": "45"
+}, {
+    "val": "344",
+    "name": "咸海",
+    "direction": "67.5"
+}, {
+    "val": "273",
+    "name": "咸海",
+    "direction": "90"
+}, {
+    "val": "152",
+    "name": "咸海",
+    "direction": "112.5"
+}, {
+    "val": "115",
+    "name": "咸海",
+    "direction": "135"
+}, {
+    "val": "125",
+    "name": "咸海",
+    "direction": "157.5"
+}, {
+    "val": "206",
+    "name": "咸海",
+    "direction": "180"
+}, {
+    "val": "235",
+    "name": "咸海",
+    "direction": "202.5"
+}, {
+    "val": "232",
+    "name": "咸海",
+    "direction": "225"
+}, {
+    "val": "184",
+    "name": "咸海",
+    "direction": "247.5"
+}, {
+    "val": "199",
+    "name": "咸海",
+    "direction": "270"
+}, {
+    "val": "75",
+    "name": "咸海",
+    "direction": "292.5"
+}, {
+    "val": "42",
+    "name": "咸海",
+    "direction": "315"
+}, {
+    "val": "51",
+    "name": "咸海",
+    "direction": "337.5"
+}, {
+    "val": "3",
+    "name": "卡萨雷",
+    "direction": "0"
+}, {
+    "val": "5",
+    "name": "卡萨雷",
+    "direction": "22.5"
+}, {
+    "val": "22",
+    "name": "卡萨雷",
+    "direction": "45"
+}, {
+    "val": "30",
+    "name": "卡萨雷",
+    "direction": "67.5"
+}, {
+    "val": "45",
+    "name": "卡萨雷",
+    "direction": "90"
+}, {
+    "val": "12",
+    "name": "卡萨雷",
+    "direction": "112.5"
+}, {
+    "val": "7",
+    "name": "卡萨雷",
+    "direction": "135"
+}, {
+    "val": "3",
+    "name": "卡萨雷",
+    "direction": "157.5"
+}, {
+    "val": "19",
+    "name": "卡萨雷",
+    "direction": "180"
+}, {
+    "val": "40",
+    "name": "卡萨雷",
+    "direction": "202.5"
+}, {
+    "val": "46",
+    "name": "卡萨雷",
+    "direction": "225"
+}, {
+    "val": "86",
+    "name": "卡萨雷",
+    "direction": "247.5"
+}, {
+    "val": "86",
+    "name": "卡萨雷",
+    "direction": "270"
+}, {
+    "val": "22",
+    "name": "卡萨雷",
+    "direction": "292.5"
+}, {
+    "val": "2",
+    "name": "卡萨雷",
+    "direction": "315"
+}, {
+    "val": "1",
+    "name": "卡萨雷",
+    "direction": "337.5"
+}, {
+    "val": "74",
+    "name": "朱萨雷",
+    "direction": "0"
+}, {
+    "val": "7",
+    "name": "朱萨雷",
+    "direction": "22.5"
+}, {
+    "val": "116",
+    "name": "朱萨雷",
+    "direction": "45"
+}, {
+    "val": "53",
+    "name": "朱萨雷",
+    "direction": "67.5"
+}, {
+    "val": "226",
+    "name": "朱萨雷",
+    "direction": "90"
+}, {
+    "val": "38",
+    "name": "朱萨雷",
+    "direction": "112.5"
+}, {
+    "val": "43",
+    "name": "朱萨雷",
+    "direction": "135"
+}, {
+    "val": "31",
+    "name": "朱萨雷",
+    "direction": "157.5"
+}, {
+    "val": "154",
+    "name": "朱萨雷",
+    "direction": "180"
+}, {
+    "val": "170",
+    "name": "朱萨雷",
+    "direction": "202.5"
+}, {
+    "val": "274",
+    "name": "朱萨雷",
+    "direction": "225"
+}, {
+    "val": "428",
+    "name": "朱萨雷",
+    "direction": "247.5"
+}, {
+    "val": "2684",
+    "name": "朱萨雷",
+    "direction": "270"
+}, {
+    "val": "27",
+    "name": "朱萨雷",
+    "direction": "292.5"
+}, {
+    "val": "7",
+    "name": "朱萨雷",
+    "direction": "315"
+}, {
+    "val": "13",
+    "name": "朱萨雷",
+    "direction": "337.5"
+}, {
+    "val": "4",
+    "name": "卡拉克",
+    "direction": "0"
+}, {
+    "val": "0",
+    "name": "卡拉克",
+    "direction": "22.5"
+}, {
+    "val": "12",
+    "name": "卡拉克",
+    "direction": "45"
+}, {
+    "val": "6",
+    "name": "卡拉克",
+    "direction": "67.5"
+}, {
+    "val": "82",
+    "name": "卡拉克",
+    "direction": "90"
+}, {
+    "val": "44",
+    "name": "卡拉克",
+    "direction": "112.5"
+}, {
+    "val": "8",
+    "name": "卡拉克",
+    "direction": "135"
+}, {
+    "val": "6",
+    "name": "卡拉克",
+    "direction": "157.5"
+}, {
+    "val": "26",
+    "name": "卡拉克",
+    "direction": "180"
+}, {
+    "val": "19",
+    "name": "卡拉克",
+    "direction": "202.5"
+}, {
+    "val": "303",
+    "name": "卡拉克",
+    "direction": "225"
+}, {
+    "val": "359",
+    "name": "卡拉克",
+    "direction": "247.5"
+}, {
+    "val": "201",
+    "name": "卡拉克",
+    "direction": "270"
+}, {
+    "val": "14",
+    "name": "卡拉克",
+    "direction": "292.5"
+}, {
+    "val": "7",
+    "name": "卡拉克",
+    "direction": "315"
+}, {
+    "val": "0",
+    "name": "卡拉克",
+    "direction": "337.5"
+}, {
+    "val": "0",
+    "name": "斯瑞克拉巴特",
+    "direction": "0"
+}, {
+    "val": "18",
+    "name": "斯瑞克拉巴特",
+    "direction": "22.5"
+}, {
+    "val": "71",
+    "name": "斯瑞克拉巴特",
+    "direction": "45"
+}, {
+    "val": "9",
+    "name": "斯瑞克拉巴特",
+    "direction": "67.5"
+}, {
+    "val": "30",
+    "name": "斯瑞克拉巴特",
+    "direction": "90"
+}, {
+    "val": "21",
+    "name": "斯瑞克拉巴特",
+    "direction": "112.5"
+}, {
+    "val": "61",
+    "name": "斯瑞克拉巴特",
+    "direction": "135"
+}, {
+    "val": "7",
+    "name": "斯瑞克拉巴特",
+    "direction": "157.5"
+}, {
+    "val": "10",
+    "name": "斯瑞克拉巴特",
+    "direction": "180"
+}, {
+    "val": "80",
+    "name": "斯瑞克拉巴特",
+    "direction": "202.5"
+}, {
+    "val": "377",
+    "name": "斯瑞克拉巴特",
+    "direction": "225"
+}, {
+    "val": "171",
+    "name": "斯瑞克拉巴特",
+    "direction": "247.5"
+}, {
+    "val": "69",
+    "name": "斯瑞克拉巴特",
+    "direction": "270"
+}, {
+    "val": "7",
+    "name": "斯瑞克拉巴特",
+    "direction": "292.5"
+}, {
+    "val": "2",
+    "name": "斯瑞克拉巴特",
+    "direction": "315"
+}, {
+    "val": "0",
+    "name": "斯瑞克拉巴特",
+    "direction": "337.5"
+}, {
+    "val": "146",
+    "name": "尤阿雷",
+    "direction": "0"
+}, {
+    "val": "98",
+    "name": "尤阿雷",
+    "direction": "22.5"
+}, {
+    "val": "283",
+    "name": "尤阿雷",
+    "direction": "45"
+}, {
+    "val": "154",
+    "name": "尤阿雷",
+    "direction": "67.5"
+}, {
+    "val": "370",
+    "name": "尤阿雷",
+    "direction": "90"
+}, {
+    "val": "276",
+    "name": "尤阿雷",
+    "direction": "112.5"
+}, {
+    "val": "1143",
+    "name": "尤阿雷",
+    "direction": "135"
+}, {
+    "val": "289",
+    "name": "尤阿雷",
+    "direction": "157.5"
+}, {
+    "val": "510",
+    "name": "尤阿雷",
+    "direction": "180"
+}, {
+    "val": "382",
+    "name": "尤阿雷",
+    "direction": "202.5"
+}, {
+    "val": "967",
+    "name": "尤阿雷",
+    "direction": "225"
+}, {
+    "val": "422",
+    "name": "尤阿雷",
+    "direction": "247.5"
+}, {
+    "val": "529",
+    "name": "尤阿雷",
+    "direction": "270"
+}, {
+    "val": "216",
+    "name": "尤阿雷",
+    "direction": "292.5"
+}, {
+    "val": "87",
+    "name": "尤阿雷",
+    "direction": "315"
+}, {
+    "val": "89",
+    "name": "尤阿雷",
+    "direction": "337.5"
+}, {
+    "val": "10",
+    "name": "克孜勒奥尔达",
+    "direction": "0"
+}, {
+    "val": "10",
+    "name": "克孜勒奥尔达",
+    "direction": "22.5"
+}, {
+    "val": "11",
+    "name": "克孜勒奥尔达",
+    "direction": "45"
+}, {
+    "val": "23",
+    "name": "克孜勒奥尔达",
+    "direction": "67.5"
+}, {
+    "val": "31",
+    "name": "克孜勒奥尔达",
+    "direction": "90"
+}, {
+    "val": "10",
+    "name": "克孜勒奥尔达",
+    "direction": "112.5"
+}, {
+    "val": "13",
+    "name": "克孜勒奥尔达",
+    "direction": "135"
+}, {
+    "val": "9",
+    "name": "克孜勒奥尔达",
+    "direction": "157.5"
+}, {
+    "val": "36",
+    "name": "克孜勒奥尔达",
+    "direction": "180"
+}, {
+    "val": "116",
+    "name": "克孜勒奥尔达",
+    "direction": "202.5"
+}, {
+    "val": "446",
+    "name": "克孜勒奥尔达",
+    "direction": "225"
+}, {
+    "val": "629",
+    "name": "克孜勒奥尔达",
+    "direction": "247.5"
+}, {
+    "val": "537",
+    "name": "克孜勒奥尔达",
+    "direction": "270"
+}, {
+    "val": "49",
+    "name": "克孜勒奥尔达",
+    "direction": "292.5"
+}, {
+    "val": "8",
+    "name": "克孜勒奥尔达",
+    "direction": "315"
+}];
+
+const configs = {
+    fscsConfig: {
+        columns: [
+            {type: "selection", width: 60, align: 'center'},
+            {title: "年份", key: "year"},
+            {title: "咸海", key: "xh"},
+            {title: "尤阿雷", key: "yal"},
+            {title: "卡萨雷", key: "ksl"},
+            {title: "克孜勒奥尔达", key: "aed"},
+            {title: "斯瑞克拉巴特", key: "lbt"},
+            {title: "朱萨雷", key: "zsl"},
+            {title: "卡拉克", key: "klk"},
+        ],
+        title: "沙尘暴发生次数横向对比",
+        echartDivWidth: "49%",
+        tableDivWidth: "50%",
+    },
+    fscsConfig2: {
+        name: "",
+        columns: [
+            { type: "selection", width: 60, align: 'center'},
+            { title: "年份", key: "year"},
+            { title: "次数", key : "count"}
+        ],
+        title: "沙尘暴发生次数详情",
+        echartDivWidth: "49%",
+        tableDivWidth : "50%",
+    },
+    sslConfig: {
+        type: "",
+        columns: [
+            { title: "气象站名", key: "name", width: 150 },
+            { title: "沙尘暴", align: 'center',
+                children: [
+                    { title: "沙尘量", key : "scl1" },
+                    { title: "均方偏差", key: "jfpc1" },
+                    { title: "变异系数", key: "byxs1" }
+                ]},
+            { title: "风沙流", align: 'center',
+                children: [
+                    { title: "沙尘量", key : "scl2" },
+                    { title: "均方偏差", key: "jfpc2" },
+                    { title: "变异系数", key: "byxs2" }
+                ]},
+            { title: "沙尘暴与风沙流", align: 'center',
+                children: [
+                    { title: "沙尘量", key : "scl3" },
+                    { title: "均方偏差", key: "jfpc3" },
+                    { title: "变异系数", key: "byxs3" }
+                ]},
+        ],
+        title: "咸海沙尘输送量统计特征横向对比",
+        echartDivWidth: "35%",
+        tableDivWidth : "65%",
+    },
+    pjsslConfig: {
+        columns: [
+            { title: "气象站名", key: "name", width: 100 },
+            { title: "方向/°", align: 'center',
+                children: [
+                    { title: "0", key: "0", width: 80},
+                    { title: "22.5", key: "22.5", width: 80},
+                    { title: "45", key: "45", width: 80},
+                    { title: "67.5", key: "67.5", width: 80},
+                    { title: "90", key: "90", width: 80},
+                    { title: "112.5", key: "112.5", width: 80},
+                    { title: "135", key: "135", width: 80},
+                    { title: "157.5", key: "157.5", width: 80},
+                    { title: "180", key: "180", width: 80},
+                    { title: "202.5", key: "202.5", width: 80},
+                    { title: "225", key: "225", width: 80},
+                    { title: "247.5", key: "247.5", width: 80},
+                    { title: "270", key: "270", width: 80},
+                    { title: "292.5", key: "292.5", width: 80},
+                    { title: "315", key: "315", width: 80},
+                    { title: "337.5", key: "337.5", width: 80},
+                ]}
+        ],
+        title: "咸海沙尘输送量统计特征详情",
+        echartDivWidth: "30%",
+        tableDivWidth : "70%",
+    },
+}
+
+export {
+    stations,
+    _STATION,
+    _FSCS,
+    _PJSSL,
+    _SSL,
+    configs,
+    LocationMapping
+}

@@ -1,5 +1,4 @@
 
-
 ::-webkit-scrollbar {
     /*滚动条整体样式*/
     width : 3px;  /*高宽分别对应横竖滚动条的尺寸*/
@@ -26,3 +25,61 @@
     background   : #ededed;
     border-radius: 10px;
 }
+
+/*修改表格样式开始*/
+.ivu-table-header th {
+    background: #10617f !important;
+    color: white;
+}
+.ivu-table .ivu-table-tbody td {
+    background-color: #0092b6 !important;
+    color: white;
+}
+.ivu-table-tip td {
+    background-color: #0092b6 !important;
+    color: white;
+}
+/*修改表格样式结束*/
+/*修改分页样式开始*/
+.ivu-page li {
+    background: #0092b6;
+    color: white;
+}
+.ivu-page li a {
+    background: #0092b6;
+    color: white;
+}
+.ivu-page-item:hover a {
+    color: white;
+}
+.ivu-page-next:hover a, .ivu-page-prev:hover a {
+    color: white;
+}
+.ivu-page-prev:hover a, .ivu-page-prev:hover a {
+    color: white;
+}
+.ivu-page li.ivu-page-item-active {
+    background: #10617f !important;
+    color: white;
+}
+.ivu-page li.ivu-page-item-active a {
+    background: #10617f !important;
+    color: white;
+}
+.ivu-page-options-sizer {
+    background: #0092b6;
+    color: white;
+}
+.ivu-page-options-sizer span {
+    background: #0092b6;
+    color: white;
+}
+.ivu-page-options .ivu-select-dropdown {
+    background: #0092b6;
+    color: white;
+}
+.ivu-page-options-elevator input {
+    background: #0092b6;
+    color: white;
+}
+/*修改分页样式结束*/

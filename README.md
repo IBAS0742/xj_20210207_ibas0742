@@ -165,3 +165,15 @@ window.mapLayers = {
 执行 yarn build 或点击 package.json 中 build 的按钮
 如果是发布到对应的环境，在 build 之后点击 buildAfter 按钮 
 ```
+
+### 其他
+
+- 问题1：无法获取到球面外的点坐标
+
+[问答:Cesium 屏幕坐标转换出现undefined](http://ask.supermap.com/50749?show=51384)
+
+因此如果模块中部分点不在事先声明的范围内，需要执行 apis.setBaseView，默认范围在 apis.setBaseView 中
+
+### 各个页面的开发说明
+
+[咸海盐尘监测](./document/咸海盐尘监测_文件结构和代码说明.md)

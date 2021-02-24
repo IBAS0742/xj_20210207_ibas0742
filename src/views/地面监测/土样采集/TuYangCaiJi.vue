@@ -7,8 +7,15 @@
 </template>
 
 <script>
+    import ModelPage from "../../../components/layout/ModulPage";
+    import MultiSelection from "../../../components/selection/MultiSelection";
+
     export default {
-        name: "TuYangCaiJi"
+        name: "TuYangCaiJi",
+        components: {
+            ModelPage,
+            MultiSelection
+        }
     }
 </script>
 

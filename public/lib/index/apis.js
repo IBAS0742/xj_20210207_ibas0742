@@ -332,7 +332,8 @@ class Apis {
      * @param pointInfo = { title: "乌孜别克斯坦",long: 61.75, lat: 46.89 }
      * */
     createEchartDom(entity,_css3Renderer,pointInfo) {
-        let obj = window.mapHandle.createEchartDom(entity,_css3Renderer,this.viewer,pointInfo,this._createId());
+        let obj = window.mapHandle.createEchartDom(entity,_css3Renderer,
+            this.viewer,pointInfo,this._createId());
         let ec = echarts.init(obj.echartElement);
         return {
             ...obj,
@@ -365,9 +366,33 @@ class Apis {
         }
     }
 
+    // 如果是载入新模块，需要在 removeAll 之后执行
+    setBaseView(lng,lat,height,heading,pitch,roll) {
+        lng = lng || 65;
+        lat = lat || 45;
+        height = height || 4000000;
+        heading = heading || 6.2831853071795845;
+        pitch = pitch || -1.57072018602691;
+        roll = roll || 0;
+        this.viewer.camera.setView({
+            // 初始化相机经纬度
+            destination: Cesium.Cartesian3.fromDegrees(lng,lat,height),//Cesium.Cartesian3.fromDegrees(65, 45, 4000000),
+            orientation: {
+                heading: heading,
+                pitch: pitch, //从上往下看为-90
+                roll: roll
+            }
+        })
+    }
+
+    // 恢复默认视图
+    resetView() {
+        this.viewer.camera.setView(this._baseView);
+    }
+
     // 销毁全部内容，在使用新模块时调用
     removeAll() {
-        this.viewer.camera.setView(this._baseView);
+        this.resetView();
         this._layerIds.imageryProvider = this._layerIds.imageryProvider.filter(id => {
             for (let i = 0;i < this.viewer.imageryLayers._layers.length;i++) {
                 if (this.viewer.imageryLayers._layers[i]._imageryProvider.id === id) {

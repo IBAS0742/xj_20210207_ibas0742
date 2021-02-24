@@ -228,9 +228,10 @@ class MarkerManager {
                 window.dispatchEvent(evt)
                 // marker = undefined
                 return cb({id,marker});
+            } else {
+                cancel();
+                return cb(null);
             }
-            cancel();
-            cb(null);
         };
         const cancel = function () {
             handler.removeInputAction(LEFT_CLICK);
@@ -263,7 +264,7 @@ class MarkerManager {
     // position click.position
     addCustomMarker(position,{description,text,info},cb) {
         let $this = this;
-        console.log(`pointion:${position}`)
+        //console.log(`pointion:${position}`)
         this.pick({tar: "custom"},function (ret) {
             if (ret && 'id' in ret) {
                 let id = ret.id;

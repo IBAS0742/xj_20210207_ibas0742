@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "buildAfter": "node 测试数据集/buildAfter.js"
+    "buildAfter": "node 测试数据集/buildAfter.js",
+    "testServe": "vue serve ./src/testMain.js"
   },
   "dependencies": {
     "core-js": "^3.6.5",

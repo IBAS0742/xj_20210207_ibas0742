@@ -46,7 +46,9 @@ const CVT = (function() {
         return new Cesium.Cartesian3(x,y,z);
     };
     _.Wgs842Pixel = function({lat,lng},viewer) {
+        // return Cesium.Cartesian3.fromDegrees(lat,lng);
         return _.cartesian2Pixel(viewer.scene.globe.ellipsoid.cartographicToCartesian(Cesium.Cartographic.fromDegrees(lng,lat)),viewer);
+        // return viewer.scene.globe.ellipsoid.cartographicToCartesian(Cesium.Cartographic.fromDegrees(lng,lat));
     };
     _.Wgs842Cartesian = function({x,y}) {
         return new Cesium.Cartesian2(x,y);
