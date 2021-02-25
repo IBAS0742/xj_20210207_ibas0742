@@ -83,3 +83,35 @@
     color: white;
 }
 /*修改分页样式结束*/
+/*修改按钮样式结束*/
+.ivu-btn-default {
+    color: #ffffff;
+    background-color: #0092b6;
+    border-color: #10617f;
+}
+.ivu-btn-default.active {
+    color: #ffffff;
+    background-color: #10617f;
+    border-color: #10617f;
+}
+.ivu-btn:hover {
+    color: #2f4554;
+    background-color: #e0e0e0;
+    border-color: #10617f;
+}
+/*修改按钮样式结束*/
+/*修改单选按钮样式结束*/
+.ivu-radio-inner:after {
+    background: #10617f;
+}
+.ivu-radio-checked .ivu-radio-inner {
+    border-color: #10617f;
+}
+/*修改单选按钮样式结束*/
+.ivu-checkbox-indeterminate .ivu-checkbox-inner {
+    background-color: #10617f;
+    border-color: #10617f;
+}
+.ivu-checkbox-inner {
+    background:#0092b6;
+}

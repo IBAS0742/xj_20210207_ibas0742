@@ -34,66 +34,134 @@
     import SingleSelection from "../../../components/selection/SingleSelection";
     import PlayButton from "../../../components/Buttons/PlayButton";
     import ModelPage from "../../../components/layout/ModulPage";
-    import {getGanHanZhiShuLayerParams} from "./layers";
+    import {
+        // getGanHanZhiShuLayerParams
+        getLayerParameter
+    } from "./layers";
+    import { tongji,requestEDay } from "./request";
+
+    // let provider = null;
+    // 不想挂到 vue 上，一旦挂上就变化时就会被监听，特别耗内存
+    let edayInfo = null;
+    let updateLayer = ($this) => {
+        // todo 这里应该调用 mapApis 换对应的栅格图片
+        // window.mapApis.removeSingleLayer(provider);
+        //$this.type = type
+        let type = $this.types[$this.currentSelectInd].key;
+        let edays = edayInfo.all[$this.year].eday;
+        // let curLayers = getGanHanZhiShuLayerParams(type,this.year,this.eday);
+        // provider = window.mapApis.addSingleLayer(curLayers.url,curLayers.layers,curLayers.params);
+        mapApis.addTimelineLayer(
+            $this.year + '-1-1',
+            $this.year + "-12-31",
+            window.allUrls.geoserver + "xj_test/wms",
+            getLayerParameter(type)
+            ,function ({year,month,day,dd}) {
+                let eday = parseInt(dd / 8) + 1;
+                if (!edays.includes(eday)) {
+                    //window.vueMessage(`没有日期为 ${$menus.year}年 ${eday}旬 的影像`,'info');
+                    let ind = 0;
+                    for (;ind <  edays.length;ind++) {
+                        if ( edays[ind] > eday) break;
+                    }
+                    if (ind === 0) eday = edays[ind]; else eday = edays[ind - 1];
+                }
+                return {
+                    // layers: `draught:${type.toLowerCase()}_${year}_${eday}`,
+                    // query_layers: `draught:${type.toLowerCase()}_${year}_${eday}`,
+                    layers: `xj_test:vhi${year}${eday}`,
+                    query_layers: `xj_test:vhi${year}${eday}`,
+                };
+            },function (j,{Y,M,D,date,day}) {
+                // console.log(date);
+                // console.log(day);
+                $this.eday = parseInt(day / 8) + 1;
+                $this.currentTime = `${$this.year}年${$this.eday}期（旬）`;
+            });
+    };
     export default {
         components: {PlayButton, SingleSelection, ModelPage},
         name: "GanHanZhiShu",
         data() {
             return {
-                defaultSelectYear: 2000,
-                defaultSelectInd: 0,
+                currentSelectInd: 0,
                 types: [
-                    {value: "AVI 距平指标指数",key:"avi",selected: true },
+                    {value: "AVI 距平指标指数",key:"avi",selected: false },
                     {value: "VHI 植被健康指数",key:"vhi",selected: false },
                     {value: "VSWI 植被供水指数",key:"vswi",selected: false },
                     {value: "干旱程度预警",key:"result",selected: false },
-                    ],
+                ],
                 currentTime: '2010年01期（旬）',
                 year:2010,
+                yearList: [],
                 eday:1,
-                type:"avi"
+                edayList: [],
+                // 第一个是 year ，第二个是 eday，对应的是
+                // year = edayInfo.all[edayInfo.yearList[time[0]]].year
+                // eday = edayInfo.all[edayInfo.yearList[time[0]]].eday[time[1]]
+                // 可以用于遍历
+                time: [0,0],
+                type:"avi",
+                playing: false
             }
         },
         methods:{
             changeType(type,ind) {
+                // 如果没有改变选中的类型（不管）
                 if (this.types[ind].selected) {
                     return false;
                 } else {
+                    // 修改菜单的选中情况
                     this.types.forEach((y,_ind) => {
                         if (y.selected) {
                             this.types[_ind].selected = false;
                         }
                     });
                     this.types[ind].selected = true;
-                    this.defaultSelectInd = ind;
-                    this.currentTime = `${this.year}年${this.eday}期（旬）`;
-                    // todo 这里应该调用 mapApis 换对应的栅格图片
-                    window.mapApis.removeSingleLayer(provider);
-                    this.type = type
-                    let curLayers = getGanHanZhiShuLayerParams(type,this.year,this.eday);
-                    provider = window.mapApis.addSingleLayer(curLayers.url,curLayers.layers,curLayers.params);
+
+                    this.currentSelectInd = ind;
+                    let $this = this;
+                    requestEDay().then(ei => {
+                        edayInfo = ei;
+                        // 更新时间
+                        $this.yearList.splice(0,$this.yearList.length,...ei.yearList);
+                        $this.edayList.splice(0,$this.edayList.length,...ei.all[ei.yearList[0]].eday);
+                        $this.year = ei.yearList[0];
+                        $this.eday = ei.all[ei.yearList[0]].eday[0];
+                        $this.time = [0,0];
+                        $this.currentTime = `${$this.year}年${$this.eday}期（旬）`;
+                        // 这里需要重置时间轴
+                        updateLayer($this);
+                        // 将时间轴拨到第一张影像的时间
+                        window.mapApis.setTime($this.year,$this.eday * 8);
+                    });
                 }
             },
-            changeYear(year) {
-                this.edayList = this.all[year].eday;
+            changeYear() {
                 this.eday = this.edayList[0];
-                window.setTimeLine();
+                // 将时间轴拨到当前影像的时间
+                updateLayer(this);
             },
-            changeEDay(eday) {
-                window.viewer.clock.currentTime = CesiumUtils.getJulianDateFromDayNumber(this.year,(this.eday - 1) * 8);
+            changeEDay() {
+                // 将时间轴拨到当前影像的时间
+                window.mapApis.setTime(this.year,this.eday * 8 - 8);
+                this.edayList = edayInfo.all[edayInfo.yearList[0]].eday;
             },
             playBtnClick(tar) {
-                this.defaultSelectInd += tar === 'left'? -1 : 1;
-                if (this.defaultSelectInd < 0) {
-                    this.defaultSelectInd = this.years.length - 1;
-                } else if (this.defaultSelectInd > this.years.length) {
-                    this.defaultSelectInd = 0;
+                // this.currentSelectInd += tar === 'left'? -1 : 1;
+                // 这里先不管他，直接写播放
+                // 每秒播放一天的量
+                if (this.playing) {
+                    window.mapApis.stop();
+                } else {
+                    window.mapApis.play(false,tar === 'left'? -1 : 1);
                 }
-                this.changeYear(this.years[this.defaultSelectInd].key,this.defaultSelectInd);
+                this.playing = !this.playing;
             }
         },
         mounted() {
-            this.changeType(this.defaultSelectYear,0);
+            this.changeType(null,0);
+            window.requestEDay = requestEDay;
         }
     }
 </script>

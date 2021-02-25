@@ -422,4 +422,11 @@ class Apis {
         this.bindPickerMethod(()=>{});
         this.updateMagmMethod(this._nullMagmMethods);
     }
+
+    // year = 2018
+    // days = 4
+    // 表示 2018 年的第 4 天
+    setTime(year,days) {
+        this.viewer.clock.currentTime = CesiumUtils.getJulianDateFromDayNumber(year,days);
+    }
 }

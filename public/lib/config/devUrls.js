@@ -31,6 +31,19 @@ let forTest__mapLayers = year => {
         }
     }
 }
+let forTest_randomLayers = () => {
+    let layer = ["xj_test:vhi201811","xj_test:vhi201812","xj_test:vhi201813"]
+    return {
+        url: window.allUrls.geoserver + "xj_test/wms",
+        layers: layer[parseInt(Math.random() * 3)],
+        params: {
+            styles: 'xj_test:vhi',
+            service: 'WMS',
+            transparent: true,
+            format: 'image/png'
+        }
+    }
+}
 
 window.requestApis = {
     水文观测站点() {
@@ -56,6 +69,28 @@ window.requestApis = {
                 return new Promise(s => s(datas));
             }
         }
+    },
+    干旱指数() {
+        return {
+            requestEDay(type) {
+                return new Promise(s => {
+                    s({"code":200,"data":{"endRow":340,"firstPage":0,"hasNextPage":false,"hasPreviousPage":false,"isFirstPage":false,"isLastPage":true,"lastPage":0,
+                            "list":[
+                                {"dtype":"vhi","eday":10,"id":"vhi20101","path":"","year":2018},
+                                {"dtype":"vhi","eday":11,"id":"vhi20101","path":"","year":2018},
+                                {"dtype":"vhi","eday":12,"id":"vhi20101","path":"","year":2018},
+                                {"dtype":"vhi","eday":13,"id":"vhi20101","path":"","year":2018},
+                                {"dtype":"vhi","eday":14,"id":"vhi20101","path":"","year":2018},
+                            ],
+                            "navigateFirstPage":0,"navigateLastPage":0,"navigatePages":8,"navigatepageNums":[],"nextPage":0,"orderBy":"","pageNum":0,"pageSize":0,"pages":0,"prePage":0,"size":340,"startRow":1,"total":340},"message":"SUCCESS"});
+                });
+            },
+            tongji() {
+                return new Promise(s => {
+                    s({"0": "59580", "1": "0", "2": "4", "3": "43", "4": "35", "5": "21", "6": "15", "7": "25", "8": "37", "9": "106"});
+                })
+            }
+        }
     }
 }
 
@@ -69,7 +104,15 @@ window.mapLayers = {
     大湖区NDVI(year) {
         return forTest__mapLayers(year)
     },
-    干旱指数(type,year,day){
-        return forTest__mapLayers(year)
+    // 干旱指数(type,year,day){
+    //     return forTest_randomLayers()
+    // },
+    干旱指数参数(type){
+        return {
+            styles: 'xj_test:vhi',
+            service: 'WMS',
+            transparent: true,
+            format: 'image/png'
+        }
     }
 };

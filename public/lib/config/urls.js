@@ -5,7 +5,8 @@ window.allUrls = {
     // 影像
     'image': 'http://10.10.1.132/basemap/影像/{z}/{x}/{y}.jpg',
     'geoserver': 'http://10.10.1.132:8080/geoserver/',
-    'base': "http://10.10.1.132:8081/"
+    'base': "http://10.10.1.132:8081/",
+    tongji: 'http://10.10.1.132:8000/tongji/'
 }
 
 window.mapLayers = {
@@ -58,3 +59,43 @@ window.mapLayers = {
         }
     }
 };
+
+// api 请求，结构有要求
+window.fetchFromUrl = (url, data) => fetch(url, {
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    method: 'POST',
+    body:  toParamString(data || {})
+}).then(_ => _.text())
+    .then(JSON.parse);
+
+window.requestApis = {
+    水文观测站点() {
+
+    },
+    // 干旱指数() {
+    //     return {
+    //         requestEDay(type) {
+    //             return fetchFromUrl(window.allUrls.base + "result/listBy",{
+    //                 dtype: type
+    //             });
+    //         },
+    //         tongji(raster,geojson,typeArray) {
+    //             return fetchJsonPOST(window.allUrls.tongji, {
+    //                 raster, //: 'avi-2018-1',
+    //                 geojson, //,
+    //                 array: typeArray, //: avi: "0,1,2,3",
+    //             });
+    //         }
+    //     }
+    // },
+    干旱指数参数(type) {
+        return {
+            styles: 'draught:' + type.toLowerCase(),
+            service: 'WMS',
+            transparent: true,
+            format: 'image/png'
+        }
+    }
+}

@@ -17,7 +17,7 @@
             <div slot="left">
             </div>
             <div style="width: 100%;height: 100%;" slot="other">
-                <XianHaiYanChenJianCe></XianHaiYanChenJianCe>
+                <TuYangCaiJi></TuYangCaiJi>
             </div>
         </IndexLayout>
     </div>
@@ -27,7 +27,7 @@
     import { SplitPanelOP } from "../libs/splitPanelOP";
     import { layoutConfig } from "../libs/layoutConfig";
     import { InitMethods } from "./InitMethods";
-    import XianHaiYanChenJianCe from "./地面监测/咸海盐尘监测/XianHaiYanChenJianCe";
+    import TuYangCaiJi from "./地面监测/土样采集/TuYangCaiJi";
 
     let spop = new SplitPanelOP();
 
@@ -41,7 +41,7 @@
                 defaultPath: layoutConfig.defaultPath()
             }
         },
-        components: {XianHaiYanChenJianCe, IndexLayout },
+        components: {TuYangCaiJi, IndexLayout },
         methods: {
             menuChange(m) {
                 console.log(m);

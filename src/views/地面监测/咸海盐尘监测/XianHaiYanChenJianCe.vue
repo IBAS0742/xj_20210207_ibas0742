@@ -13,9 +13,10 @@
                 </div>
                 <!-- 沙尘输送量统计特征(需要几个按钮) -->
                 <div style="line-height: 40px;margin-right: 10px;" v-if="type === 'ssl'">
-                    <button v-for="(b,ind) in sslButton.btns"
-                        :key="ind" :style="sslButton.active === b.type ? sslButton.activeStyle : sslButton.noActiveStyle"
-                        @click="sslButtonAction(b.type)">{{b.lable}}</button>
+                    <i-button v-for="(b,ind) in sslButton.btns"
+                        :key="ind" style="margin-right: 5px;"
+                              :class="sslButton.active === b.type ? 'active' : ''"
+                        @click="sslButtonAction(b.type)">{{b.lable}}</i-button>
 <!--                    <button @click="sslButton('scb')">沙尘暴</button>-->
 <!--                    <button @click="sslButton('fsl')">风沙流</button>-->
 <!--                    <button @click="sslButton('scbfsl')">沙尘暴与风沙流</button>-->

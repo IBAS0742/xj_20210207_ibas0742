@@ -1,12 +1,9 @@
-const url = () => window.allUrls.base + "/table/draught/";
-
 // yearList = [2010,2011,2012,2013,2014,2015,2016],
 // edayList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
 // all = {year:2010,has: 10,edayHas:[1,0,0,0,0,1,1,1,0,0,0,1,1,0,0,0,1,0,1],eday:[1,3,5,7,8,9]},
 const requestEDay = (type) =>
-    fetchFromUrl(url() + "result/listBy",{
-        dtype: type
-    }).then(_ => _.data.list)
+    window.requestApis.干旱指数().requestEDay(type)
+        .then(_ => _.data.list)
         // 按年排序
         // .then(_ => _.sort((a,b) => a.year - b.year))
         .then(_ => {
@@ -128,4 +125,9 @@ const tongji = function (raster,geojson,type) {
         geojson, //,
         array: draughtInfo.kind[type], //:
     })
+}
+
+export {
+    tongji,
+    requestEDay
 }
