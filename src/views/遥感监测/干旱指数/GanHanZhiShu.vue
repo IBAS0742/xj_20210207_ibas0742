@@ -51,10 +51,12 @@
         let edays = edayInfo.all[$this.year].eday;
         // let curLayers = getGanHanZhiShuLayerParams(type,this.year,this.eday);
         // provider = window.mapApis.addSingleLayer(curLayers.url,curLayers.layers,curLayers.params);
+        mapApis.stop();
+        mapApis.removeTimelineLayer();
         mapApis.addTimelineLayer(
             $this.year + '-1-1',
             $this.year + "-12-31",
-            window.allUrls.geoserver + "xj_test/wms",
+            window.allUrls.geoserver + "draught/wms",
             getLayerParameter(type)
             ,function ({year,month,day,dd}) {
                 let eday = parseInt(dd / 8) + 1;
@@ -67,10 +69,10 @@
                     if (ind === 0) eday = edays[ind]; else eday = edays[ind - 1];
                 }
                 return {
-                    // layers: `draught:${type.toLowerCase()}_${year}_${eday}`,
-                    // query_layers: `draught:${type.toLowerCase()}_${year}_${eday}`,
-                    layers: `xj_test:vhi${year}${eday}`,
-                    query_layers: `xj_test:vhi${year}${eday}`,
+                    layers: `draught:${type.toLowerCase()}_${year}_${eday}`,
+                    query_layers: `draught:${type.toLowerCase()}_${year}_${eday}`,
+                    // layers: `xj_test:vhi${year}${eday}`,
+                    // query_layers: `xj_test:vhi${year}${eday}`,
                 };
             },function (j,{Y,M,D,date,day}) {
                 // console.log(date);
@@ -118,11 +120,14 @@
                         }
                     });
                     this.types[ind].selected = true;
+                    this.type = this.types[ind].key;
 
                     this.currentSelectInd = ind;
+                    // this.type = type;
                     let $this = this;
-                    requestEDay().then(ei => {
+                    requestEDay($this.type).then(ei => {
                         edayInfo = ei;
+                        window.ei = ei
                         // 更新时间
                         $this.yearList.splice(0,$this.yearList.length,...ei.yearList);
                         $this.edayList.splice(0,$this.edayList.length,...ei.all[ei.yearList[0]].eday);
@@ -167,5 +172,13 @@
 </script>
 
 <style scoped>
-
+.menus-block{
+    color: #000;
+    width: 212px;
+    border: 1px solid;
+    margin: 20px 44px;
+    border-radius: 3px;
+    background-color: #b6c2c7;
+    height: 117px;
+}
 </style>

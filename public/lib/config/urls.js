@@ -57,6 +57,14 @@ window.mapLayers = {
                 format: 'image/png'
             }
         }
+    },
+    干旱指数参数(type,year,day) {
+        return {
+            styles: `draught:${type}`,
+            service: 'WMS',
+            transparent: true,
+            format: 'image/png'
+        }
     }
 };
 
@@ -74,28 +82,27 @@ window.requestApis = {
     水文观测站点() {
 
     },
-    // 干旱指数() {
-    //     return {
-    //         requestEDay(type) {
-    //             return fetchFromUrl(window.allUrls.base + "result/listBy",{
-    //                 dtype: type
-    //             });
-    //         },
-    //         tongji(raster,geojson,typeArray) {
-    //             return fetchJsonPOST(window.allUrls.tongji, {
-    //                 raster, //: 'avi-2018-1',
-    //                 geojson, //,
-    //                 array: typeArray, //: avi: "0,1,2,3",
-    //             });
-    //         }
-    //     }
-    // },
-    干旱指数参数(type) {
+    干旱指数() {
         return {
-            styles: 'draught:' + type.toLowerCase(),
-            service: 'WMS',
-            transparent: true,
-            format: 'image/png'
+            requestEDay(type) {
+                return fetchFromUrl(window.allUrls.base + "table/draught/result/listBy",{
+                    dtype: type
+                });
+            },
+            tongji(raster,geojson,typeArray) {
+                return fetchJsonPOST(window.allUrls.tongji, {
+                    raster, //: 'avi-2018-1',
+                    geojson, //,
+                    array: typeArray, //: avi: "0,1,2,3",
+                });
+            }
         }
-    }
+    },
+
 }
+
+let toParamString = function(obj) {
+    return Object.keys(obj).map((key) => {
+        return encodeURIComponent(key) + '=' + encodeURIComponent(obj[key])
+    }).join('&');
+};
