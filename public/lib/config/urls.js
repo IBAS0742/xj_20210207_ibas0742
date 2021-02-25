@@ -4,7 +4,8 @@ window.allUrls = {
     'label': 'http://10.10.1.132/basemap/标签/{z}/{x}/{y}.png',
     // 影像
     'image': 'http://10.10.1.132/basemap/影像/{z}/{x}/{y}.jpg',
-    'geoserver': 'http://10.10.1.132:8080/geoserver/'
+    'geoserver': 'http://10.10.1.132:8080/geoserver/',
+    'base': "http://10.10.1.132:8081/"
 }
 
 window.mapLayers = {
@@ -38,6 +39,18 @@ window.mapLayers = {
             layers: `dahuqu_net:ndvi${year}`,
             params: {
                 styles: `dahuqu_net:ndvi`,
+                service: 'WMS',
+                transparent: true,
+                format: 'image/png'
+            }
+        }
+    },
+    干旱指数(type,year,day) {
+        return {
+            url: window.allUrls.geoserver + "draught/wms",
+            layers: `draught:${type}_${year}_${day}`,
+            params: {
+                styles: `draught:${type}`,
                 service: 'WMS',
                 transparent: true,
                 format: 'image/png'

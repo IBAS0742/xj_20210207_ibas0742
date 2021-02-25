@@ -68,5 +68,8 @@ window.mapLayers = {
     },
     大湖区NDVI(year) {
         return forTest__mapLayers(year)
+    },
+    干旱指数(type,year,day){
+        return forTest__mapLayers(year)
     }
 };
