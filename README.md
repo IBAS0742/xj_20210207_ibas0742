@@ -176,4 +176,6 @@ window.mapLayers = {
 
 ### 各个页面的开发说明
 
+[apis接口使用说明](./document/apis接口使用说明.md)
+
 [咸海盐尘监测](./document/咸海盐尘监测_文件结构和代码说明.md)
