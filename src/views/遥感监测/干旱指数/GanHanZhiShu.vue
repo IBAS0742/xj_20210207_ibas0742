@@ -26,7 +26,33 @@
             <PlayButton speed="0" @clickBtn="playBtnClick"
                         :time="currentTime"></PlayButton>
         </div>
-        <div slot="right"></div>
+        <div slot="right">
+            <div class="demo-split-pane" style="padding-top: 10px;">
+                <div>
+                    <div :style="tableDivStyle">
+                        <div style="float:left;">
+                            <span style="font-size: 20px;font-weight: bold;">{{tableTitle}}</span>
+                            <table cellspacing="0" cellpadding="1" border="1">
+                                <thead style="background-color: #B7C2C8;" >
+                                <tr>
+                                    <th colspan="2" style="width:100px;">数量统计</th>
+                                    <th v-for="i in 46">{{i}}</th>
+                                </tr>
+                                </thead>
+                                <tbody style="background-color: #DEE6E8;">
+                                <tr v-for="ds in edayInfo_tmp.yearList" :key=ds>
+                                    <td>{{ds}}年</td>
+                                    <td>{{edayInfo_tmp.all[ds].has}}期</td>
+                                    <td v-for="i in 46" :style="{background: 'radial-gradient(' + (edayInfo_tmp.all[ds].edayHas[i - 1] ? '#0092B6':'white') + ', transparent)'}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div :style="echartStyle" id="echart"></div>
+                </div>
+            </div>
+        </div>
     </ModelPage>    
 </template>
 
@@ -104,7 +130,19 @@
                 // 可以用于遍历
                 time: [0,0],
                 type:"avi",
-                playing: false
+                playing: false,
+                echartStyle: {
+                    width:"calc(100% - 1030px)",
+                    display: "inline-block",
+                    height: "100px"
+                },
+                tableDivStyle: {
+                    width: "1020px",
+                    display: "inline-block",
+                    height: "100px"
+                },
+                tableTitle:"AVI 距平指标指数",
+                edayInfo_tmp: {}
             }
         },
         methods:{
@@ -124,10 +162,12 @@
 
                     this.currentSelectInd = ind;
                     // this.type = type;
+                    this.tableTitle = this.types[ind].value
                     let $this = this;
                     requestEDay($this.type).then(ei => {
                         edayInfo = ei;
-                        window.ei = ei
+                        window.ei = ei;
+                        $this.edayInfo_tmp = ei
                         // 更新时间
                         $this.yearList.splice(0,$this.yearList.length,...ei.yearList);
                         $this.edayList.splice(0,$this.edayList.length,...ei.all[ei.yearList[0]].eday);
@@ -143,6 +183,7 @@
                 }
             },
             changeYear() {
+                this.edayList = edayInfo.all[this.year].eday
                 this.eday = this.edayList[0];
                 // 将时间轴拨到当前影像的时间
                 updateLayer(this);
@@ -150,7 +191,6 @@
             changeEDay() {
                 // 将时间轴拨到当前影像的时间
                 window.mapApis.setTime(this.year,this.eday * 8 - 8);
-                this.edayList = edayInfo.all[edayInfo.yearList[0]].eday;
             },
             playBtnClick(tar) {
                 // this.currentSelectInd += tar === 'left'? -1 : 1;
@@ -162,11 +202,59 @@
                     window.mapApis.play(false,tar === 'left'? -1 : 1);
                 }
                 this.playing = !this.playing;
-            }
+            },
+            testCreateEchart() {
+                let pointInfo = { title: "乌孜别克斯坦",long: 61.75, lat: 46.89 };
+                let obj = mapApis.createEntityAndCss3Rnederer();
+                let echartObj = mapApis.createEchartDom(obj.entity,obj.css3Renderer,pointInfo);
+                echartObj.ec.setOption( {
+                    xAxis: {
+                        type: 'category',
+                        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [{
+                        data: [150, 230, 224, 218, 135, 147, 260],
+                        type: 'line'
+                    }]
+                });
+                echartObj.echartElement.style.display = 'block';
+            },
         },
         mounted() {
             this.changeType(null,0);
             window.requestEDay = requestEDay;
+
+            mapApis.drawer(true);
+            let $this = this;
+            mapApis.updateMagmMethod({
+                "POLYGON"(magm,obj,geojson) {
+                    tongji(`draught:${$this.type.toLowerCase()}_${$this.year}_${$this.eday}`,JSON.stringify(geojson.toGeoJson()),$this.type.toLowerCase())
+                        .then(_ => {
+                        console.log(_);
+                        let a = [];
+                        for (let i in _) {
+                            a.push([i,_[i]]);
+                        }
+                        a = a.sort((b,c) => b[0] - c[0]);
+                        return a.map(b => b[1]);
+                    }).then(datas => {
+                        this.echartElement = document.getElementById("echart");
+                        this._myChart = echarts.init(this.echartElement);
+                        // 创建一个 eAndC 对象，这个对象时用于创建地图上的 点 和在 点 所在位置创建一个 echart 图表
+                        this.eAndc = window.mapApis.createEntityAndCss3Rnederer();
+                        console.log(datas)
+
+                        // window.bar = createSimpleEchartBar("echart",() => {
+                        //     window.MarkerAndGraphicManager.GraphicManager.removeAll();
+                        // });
+                        // window.bar.setDatas(datas,draughtInfo.kindName[$this.type.toLowerCase()],`${$this.year}年第${$this.eday}旬${draughtInfo.typeName[$this.type.toLowerCase()]}`);
+                    })
+                }
+            });
+            this.testCreateEchart()
         }
     }
 </script>
@@ -180,5 +268,12 @@
     border-radius: 3px;
     background-color: #b6c2c7;
     height: 117px;
+}
+tr>th {
+    width: 20px;
+    text-align: center;
+}
+tr>td {
+    text-align: center;
 }
 </style>

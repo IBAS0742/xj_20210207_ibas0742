@@ -120,14 +120,15 @@ const draughtInfo = {
     }
 };
 const tongji = function (raster,geojson,type) {
-    return fetchJsonPOST(window.ips.api.tongji + '/tongji/',{
+    return window.requestApis.干旱指数().tongji(
         raster, //: 'avi-2018-1',
         geojson, //,
-        array: draughtInfo.kind[type], //:
-    })
+        draughtInfo.kind[type], //:
+    )
 }
 
 export {
     tongji,
-    requestEDay
+    requestEDay,
+    draughtInfo
 }

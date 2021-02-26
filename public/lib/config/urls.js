@@ -69,14 +69,14 @@ window.mapLayers = {
 };
 
 // api 请求，结构有要求
-window.fetchFromUrl = (url, data) => fetch(url, {
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-    },
-    method: 'POST',
-    body:  toParamString(data || {})
-}).then(_ => _.text())
-    .then(JSON.parse);
+// window.fetchFromUrl = (url, data) => fetch(url, {
+//     headers: {
+//         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+//     },
+//     method: 'POST',
+//     body:  toParamString(data || {})
+// }).then(_ => _.text())
+//     .then(JSON.parse);
 
 window.requestApis = {
     水文观测站点() {
@@ -106,3 +106,88 @@ let toParamString = function(obj) {
         return encodeURIComponent(key) + '=' + encodeURIComponent(obj[key])
     }).join('&');
 };
+
+
+// 无结构有要求
+window.fetchOnlyFromUrlNoAPI =  (url, data) => {
+    return fetch(url + "?" + toParamString(data || {}), {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        method: 'GET',
+    }).then(_ => _.text());
+};
+
+// api 请求，结构有要求
+window.fetchOnlyFromUrl = (url, data) => {
+    return fetch(url + "?" + toParamString(data || {}), {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        method: 'GET',
+    }).then(_ => _.text())
+        .then(JSON.parse)
+        .then(d => {
+            if (d.code !== 200) {
+                alert("发生错误");
+                window.loading.close();
+            } else {
+                return d;
+            }
+        })
+};
+
+// api 请求，结构有要求
+window.fetchFromUrl = (url, data) => fetch(url, {
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    method: 'POST',
+    body:  toParamString(data || {})
+}).then(_ => _.text())
+    .then(JSON.parse);
+
+// 无结构有要求
+window.fetchJsonPOST = (url, data) => fetch(url, {
+    headers: {
+        'Content-Type': 'application/json;charset=UTF-8'
+    },
+    method: 'POST',
+    body:  JSON.stringify(data) || JSON.stringify({})
+}).then(_ => _.text())
+    .then(JSON.parse);
+// 无结构有要求
+window.fetchJsonGET = (url, data) => fetch(url, {
+    headers: {
+        'Content-Type': 'application/json;charset=UTF-8'
+    },
+    method: 'GET'
+}).then(_ => _.text())
+    .then(JSON.parse);
+
+// fetchJsonUrl 或 fetchFromUrl 或 fakeFetchFromUrl 或 fakeFetchJsonUrl 请求回来的数据
+// 当数据格式如下时可用，最后返回 data
+// {
+//     "msg": "success",
+//     "flag": true,
+//     "code": 0,
+//     "data": [{}]
+// }
+window.featchJsonDefaultDearMFCD = function(promise) {
+    return promise.then(_ => {
+        if (_.msg !== 'success' && _.code !== 0) {
+            window.msg(_.msg,"error");
+            throw new Error(_.msg);
+        } else {
+            return _.data;
+        }
+    });
+};
+
+window.fakeFetchFromUrl = (url,data,defaultValue) => new Promise(function (s) {
+    s(defaultValue)
+});
+
+window.fakeFetchJsonUrl = (url,data,defaultValue) => new Promise(function (s) {
+    s(defaultValue)
+})
