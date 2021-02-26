@@ -5,7 +5,7 @@ import { ShuiWenGuanCeZhanInit } from "./地面监测/水文观测站/init";
 //import { ZhongYaShengTaiYuHuangJingYanJiuZhongXinQiXiangZhanDianInit } from "./地面监测/中亚生态与环境研究中心气象站点/init";
 import { LiShiQiXiangGuanCeShuJuInit } from "./地面监测/历史气象观测数据/init";
 import { XianHaiYanChenJianCeInit } from "./地面监测/咸海盐尘监测/init";
-//import { TuYangCaiJiInit } from "./地面监测/土样采集/init";
+import { TuYangCaiJiInit } from "./地面监测/土样采集/init";
 //import { ShuiYangInit } from "./地面监测/水样/init";
 import { GanHanZhiShuInit } from "./遥感监测/干旱指数/init";
 //import { ZhengSanFaInit } from "./遥感监测/蒸散发/init";
@@ -88,11 +88,11 @@ const InitMethods = new (class {
                init = XianHaiYanChenJianCeInit();
                jump = () => this.router.push("XianHaiYanChenJianCe");
                break;
-//            case "土样采集":
-//                case "TuYangCaiJi":
-//                init = TuYangCaiJiInit();
-//                jump = () => this.router.push("TuYangCaiJi");
-//                break;
+           case "土样采集":
+               case "TuYangCaiJi":
+               init = TuYangCaiJiInit();
+               jump = () => this.router.push("TuYangCaiJi");
+               break;
 //            case "水样":
 //                case "ShuiYang":
 //                init = ShuiYangInit();

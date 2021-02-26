@@ -1,3 +1,91 @@
+class PointEntity {
+    constructor(viewer) {
+        this._viewer = viewer;
+        this.entity = viewer.entities.add(new Cesium.Entity());
+        this.mapper = {};
+    }
+
+    /**
+     * 添加一系列 点
+     * @param dataList [ { "名字": "ibas", "经度": "55", "维度": "55" } ]
+     * @param longKey   经度
+     * @param latKey    维度
+     * @param labelKey  名字
+     * @param type      随意，可用于查找
+     */
+    addPoints(dataList, longKey, latKey,labelKey , type) {
+        for (var i = 0; i < dataList.length; i++) {
+            var info = dataList[i];
+            if (info && info[longKey] && info[latKey]) {
+                var long = info[longKey],
+                    alt = info[latKey],
+                    label = info[labelKey];
+
+                if (long && alt) {
+                    var cartesian = Cesium.Cartesian3.fromDegrees(long, alt);
+                    var entity = mapHandle.DrawHelper.createBlackBackgroundLabel(cartesian, label, "entity_" + label);
+                    entity.properties = {
+                        ...info,_long: long,_alt: alt,_title: label
+                    }; //关联信息
+                    this.mapper[label] = { long,alt,id: "entity_" + label }
+
+                    if (this.entity) entity.parent = this.entity;
+                    if (type) entity.entityType = type;
+                }
+            }
+        }
+    }
+
+    /**
+     * 将摄像头转移到 指定节点
+     * @param label (addPoint 的 label 参数)
+     */
+    flytoByEntityProperties(label) {
+        if (label in this.mapper) {
+            this._viewer.camera.flyTo({
+                destination: Cesium.Cartesian3.fromDegrees(
+                    this.mapper[label].long,
+                    this.mapper[label].alt,
+                    35000.0),
+                duration: 1,
+            });
+        }
+    }
+
+    /**
+     * 高亮
+     * @param label
+     */
+    highlightEntity(labels) {
+        if (Cesium.defined(this.entity)) {
+            if (this.entity && this.entity._children && this.entity._children.length > 0) {
+                this.entity._children.forEach(function (value) {
+                    value.label.fillColor.setValue(Cesium.Color.fromCssColorString("#ffffff"));
+                });
+            }
+        }
+        labels.forEach(label => {
+            if (label && label in this.mapper) {
+                let _e = this.entity.entityCollection.getById(this.mapper[label].id);
+                if (_e) {
+                    _e.label.fillColor.setValue(Cesium.Color.fromCssColorString("#00ffd0"));
+                }
+            }
+        });
+    }
+
+    /**
+     * 清除所有内容
+     */
+    clearEntityChildren() {
+        if (this.entity && this.entity._children && this.entity._children.length > 0) {
+            this.entity._children.forEach(function (value) {
+                window.viewer.entities.remove(value);
+            });
+        }
+    }
+}
+
 class Apis {
     // destination 地图初始化看到的位置和缩放等级
     constructor(baseView) {
@@ -22,6 +110,7 @@ class Apis {
             "POLYGON"(){},
             "LABEL"(){},
             "MODEL"(){},
+            "OTHER"() {},
         };
         this._nullMagmMethods = {
             "MARKER"(){},
@@ -33,6 +122,7 @@ class Apis {
         this._defaultPlayTime = 3600 * 24; // 默认的播放速度
         // 地图点击回调
         this._mapOnClickCallBack = ()=>{};
+        this.pointEntity = null;
     }
     init(viewer,magm) {
         if (window.parent === window) {
@@ -57,20 +147,24 @@ class Apis {
         new TimeLine(this.viewer).UTC();
         for (let i in this._magmMethods) {
             this._magm.MarkManager.addDearObjMethod(i,($markerManager,obj) => {
-                if (!obj.id.gvid) {
-                    return;
-                }
-                let gobj = window.MarkerAndGraphicManager.GraphicManager.get(obj.id.gvid);
-                let geojson = null;
-                if (gobj) {
-                    geojson = gobj.toGeoJson();
-                } else {
-                    gobj = window.MarkerAndGraphicManager.MarkManager.get(obj.id.gvid);
+                if ($markerManager) {
+                    if (!obj.id.gvid) {
+                        return;
+                    }
+                    let gobj = window.MarkerAndGraphicManager.GraphicManager.get(obj.id.gvid);
+                    let geojson = null;
                     if (gobj) {
                         geojson = gobj.toGeoJson();
+                    } else {
+                        gobj = window.MarkerAndGraphicManager.MarkManager.get(obj.id.gvid);
+                        if (gobj) {
+                            geojson = gobj.toGeoJson();
+                        }
                     }
+                    this._magmMethods[i]($markerManager,obj,gobj,geojson);
+                } else {
+                    this._magmMethods[i](obj);
                 }
-                this._magmMethods[i]($markerManager,obj,gobj,geojson)
             });
         }
         return this;
@@ -212,7 +306,7 @@ class Apis {
     }
 
     /**
-     * magmMethods 格式为
+     * magmMethods 参数格式为
      *      {
      *          // magm 是 MarkerAndGraphicManager 对象
      *          // obj  是 lib/CesiumSeal/MarkerAndGraphicManager/ 下定义的 Graphic 对象
@@ -221,6 +315,10 @@ class Apis {
      *          "POLYGON"(magm,obj,geojson) {},
      *          // 目前实现的对象有 "MARKER", "POLYLINE", "POLYGON", "LABEL", "MODEL"
      *      }
+     *  // 其中 OTHER 表示一种特色的格式，即该对象不是通过 markerAndGraph 创建的，格式如下
+     *  magmMethods = {
+     *      ”OTHER“(obj) {}
+     *  }
      * */
     updateMagmMethod(magmMethods) {
         if (magmMethods) {
@@ -419,8 +517,10 @@ class Apis {
             this.removeEchart(eac.entity,eac.css3Renderer);
             return false;
         });
+        if (this.pointEntity) this.viewer.entities.remove(this.pointEntity);
         this.bindPickerMethod(()=>{});
         this.updateMagmMethod(this._nullMagmMethods);
+        this._mapOnClickCallBack = ()=>{};
     }
 
     // year = 2018
@@ -428,5 +528,10 @@ class Apis {
     // 表示 2018 年的第 4 天
     setTime(year,days) {
         this.viewer.clock.currentTime = CesiumUtils.getJulianDateFromDayNumber(year,days);
+    }
+
+    createPointEntity() {
+        this.pointEntity = new PointEntity(this.viewer);
+        return this.pointEntity;
     }
 }

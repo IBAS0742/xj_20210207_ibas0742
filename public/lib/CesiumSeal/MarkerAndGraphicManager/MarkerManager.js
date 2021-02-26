@@ -76,7 +76,8 @@ class MarkerManager {
             // 附加方法
             MARKERADD() {},
             POLYGONADD() {},
-            POLYLINEADD() {}
+            POLYLINEADD() {},
+            OTHER() {}
         };
         this.addDearObjMethod("MARKER",function ($this,obj) {
             $this.selectedMarker = $this.manager.get(obj.id.gvid);
@@ -94,7 +95,7 @@ class MarkerManager {
     }
 
     // todo auth:IBAS 这个方法是为了可以联合作者其他代码实现特殊功能
-    // name : "MARKER", "POLYLINE", "POLYGON", "LABEL", "MODEL"
+    // name : "MARKER", "POLYLINE", "POLYGON", "LABEL", "MODEL","OTHER"
     // method :
     addDearObjMethod(name,method) {
         if (name in this.dearObj) {
@@ -137,6 +138,8 @@ class MarkerManager {
                     self.dearObj[self.dearObj.tar[obj.id.gvtype]](self,obj);
                     // 附加方法
                     self.dearObj[self.dearObj.tar[obj.id.gvtype + "ADD"]](self,obj);
+                } else {
+                    self.dearObj["OTHER"](null,obj);
                 }
                 //   self.popWinPosition = CVT.pixel2Cartesian(e.position, viewer);
                 // self.selectedMarker = manager.get(obj.id.gvid);

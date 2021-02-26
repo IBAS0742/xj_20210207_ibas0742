@@ -39,6 +39,9 @@
     background-color: #0092b6 !important;
     color: white;
 }
+.ivu-table-body {
+    background: #0092b6;
+}
 /*修改表格样式结束*/
 /*修改分页样式开始*/
 .ivu-page li {
@@ -115,3 +118,66 @@
 .ivu-checkbox-inner {
     background:#0092b6;
 }
+
+.ivu-checkbox-group {
+    border-top: 1px solid rgb(0 146 182) !important;
+    border-left: 1px solid rgb(0 146 182) !important;
+}
+.ivu-checkbox-group-item {
+    border-bottom: 1px solid rgb(0 146 182) !important;
+    border-right: 1px solid rgb(0 146 182) !important;
+}
+span.ivu-checkbox-checked span.ivu-checkbox-inner {
+    border-color: #10617f !important;
+    background-color: #10617f !important;
+}
+
+.ivu-tag {
+    border: 1px solid #012d3e;
+    background: #0092b6;
+}
+.ivu-tag .ivu-tag-text {
+    color: white;
+}
+/*下拉选择框样式修改开始*/
+.ivu-select .ivu-select-selection {
+    background: #10617f;
+}
+.ivu-select-dropdown {
+    background: #0092b6;
+    color: white;
+}
+.ivu-select-multiple .ivu-select-item-focus, .ivu-select-multiple .ivu-select-item-selected {
+    color: rgb(255 255 255);
+    background: #0092b6;
+}
+.ivu-select-multiple .ivu-select-item-selected:after {
+    color: white;
+}
+.ivu-select-multiple .ivu-select-item-selected:hover {
+    color: white;
+    background: #10617f;
+}
+.ivu-select-item {
+    background: #13829d;
+    color: white;
+}
+.ivu-select-item:hover {
+    color: white;
+    background: #10617f;
+}
+/*下拉选择框样式修改结束*/
+/*弹窗样式修改开始*/
+.ivu-modal-content {
+    background-color: #10617f;
+}
+.ivu-modal-close .ivu-icon-ios-close {
+    color: #fff;
+}
+.ivu-modal-header p, .ivu-modal-header-inner {
+    color: white;
+}
+.ivu-modal-header {
+    border-bottom: 1px solid #0092b6;
+}
+/*弹窗样式修改结束*/

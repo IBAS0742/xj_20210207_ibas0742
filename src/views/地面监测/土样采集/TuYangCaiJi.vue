@@ -13,8 +13,10 @@
                         <label style="font-size: 16px;font-weight: bold;">{{title}}</label>
                     </div>
                     <!-- pH总盐八大离子监测 在标题旁边的内容 -->
-                    <div style="line-height: 40px;margin-right: 10px;" v-show="aboutPh.isPhActive">
-                        <i-button class="mbBtn active" @click="openPhJcbg">监测报告</i-button>
+                    <div style="line-height: 40px;margin-right: 10px;" v-show="type != 'yfsf'">
+                        <i-button class="mbBtn active"
+                                  v-html="type=='ph'?'监测报告':'粒度分析报告'"
+                                  @click="openPdf"></i-button>
                         <Modal v-model="aboutPh.modal" :title="aboutPh.modalTitle"
                                :footer-hide="true" :styles="{ top: '20px' }"
                                width="800" :mask-closable="false">
@@ -58,7 +60,8 @@
                                  @on-selection-change="tableSelect" id="table"
                                  :height="style.tableStyle.height" :columns="columns"
                                  :data="tableData" size="small" :loading="loading"></i-table>
-                        <div style="margin: 10px;overflow: hidden"  v-show="tablePage.hasPage">
+<!--                        <div style="margin: 10px;overflow: hidden"  v-show="tablePage.hasPage">-->
+                        <div style="margin: 10px;overflow: hidden">
                             <Page :total="tablePage.total" :page-size-opts="[10,30,50,100]"
                                   :page-size="tablePage.pageSize" :current="tablePage.current"
                                   @on-change="changePage" size="small" @on-page-size-change="changePageSize"
@@ -81,9 +84,18 @@
     import MultiSelection from "../../../components/selection/MultiSelection";
     import { menus,columns,title } from "./datas";
     import {bindSelectionAction} from "../../../components/selection/MultiSelectionUtils";
+    import { requestSpeci,requestSpeciByPrefix,
+        requestYfsfLocationByPrefix,
+        requestYfsfLocationPrefix
+    } from "./request";
+    import { TuYangCaiJiUtils } from "./utils";
 
     // 菜单的默认点击事件
     let bindMenuSelectionAction = () => {};
+    let utils = null;
+    // let showInfo = function (type,data) {
+    //
+    // };
     export default {
         name: "TuYangCaiJi",
         components: {
@@ -102,7 +114,7 @@
                 },
                 aboutYfsf: {
                     isYfsfActive: false,
-                    chartType: ""
+                    chartType: "Salin"
                 },
                 aboutJl: {
                     isJlActive: false
@@ -121,7 +133,7 @@
                         "border-left": "1px solid #e1e1e1",
                     },
                     tableStyle: {
-                        height: 100
+                        height: 229
                     },
                     listDivStyle: {
                         width: "380px",
@@ -141,7 +153,7 @@
                         width: "380px",
                         display: "inline-block",
                         margin: "0 5px",
-                        background: "red",
+                        // background: "red",
                         float: 'left',
                         height: '272px',
                     },
@@ -155,7 +167,7 @@
                     echartDomStyle: {
                         width: "100%",
                         display: "inline-block",
-                        height: "100px",
+                        height: "100%",
                     },
                 },
                 loading: false,
@@ -164,7 +176,7 @@
                 tablePage: {
                     hasPage: false,
                     total: 0,
-                    pageSice: 0,
+                    pageSize: 10,
                     current: 0
                 }
             }
@@ -173,34 +185,125 @@
             menuSelect(tar,item,ind,sind) {
                 let change = bindMenuSelectionAction(tar, item, ind, sind);
                 if (tar === "option") {
+                    let $this = this;
                     this.type = item.key;
+                    // 奇怪，只要全选选中着切换菜单就会出现问题
+                    if (this.checkbox.checkAll) {
+                        this.handleCheckAll();
+                    }
                     if (sind === 0) {
                         this.aboutPh.isPhActive = true;
                         this.aboutYfsf.isYfsfActive = false;
+                        utils.parsePromise(requestSpeci());
                     } else if (sind === 1) {
                         this.aboutPh.isPhActive = false;
                         this.aboutYfsf.isYfsfActive = false;
+                        utils.parsePromise(requestSpeci());
                     } else {
                         this.aboutPh.isPhActive = false;
                         this.aboutYfsf.isYfsfActive = true;
+                        utils.parsePromise(requestYfsfLocationPrefix());
                     }
+                    utils.refreshMapPointEntity(sind === 2 ? 1 : 0);
                 }
             },
-            openPhJcbg() {},
-            yfsfChartTypeChange() {},
-            ypbhChange() {},
-            handleCheckAll() {},
-            checkAllGroupChange() {},
-            tableSelect() {},
+            // 打开 ph 菜单下的 检测报告
+            openPdf() {
+                var url = null;
+                if (this.type === 'ph') {
+                    url = `/pdf/78 个土壤pH总盐八 大离子.pdf`;
+                } else {
+                    url = '/pdf/粒度分析.pdf';
+                }
+                document.getElementById("jcbg_fram")
+                    .src = "/pdf/pdfjs/web/viewer.html?file=" + url;
+                this.aboutPh.modal = true;
+                this.aboutPh.modalTitle = "土样监测报告";
+            },
+            yfsfChartTypeChange() {
+                utils.ParsingYfsfData();
+            },
+            ypbhChange(list) {
+                let promise = null;
+                if (this.type === "yfsf") {
+                    promise = requestYfsfLocationByPrefix;
+                } else {
+                    promise = requestSpeciByPrefix;
+                }
+                promise(list)
+                    .then(d => {
+                        this.checkbox.checkAllList.splice(0,this.checkbox.checkAllList.length,...d);
+                        //清除
+                        for (var i = this.checkbox.checkAllGroup.length - 1; i >= 0; i--) {
+                            var val = this.checkbox.checkAllGroup[i];
+                            if (!this.checkbox.checkAllList.includes(val)) {
+                                this.checkbox.checkAllGroup.splice(i, 1);
+                            }
+                        }
+                        this.checkAllGroupChange(this.checkbox.checkAllGroup);
+
+                        utils.showInfo(this.checkbox.checkAllGroup);
+                        // this.showInfo(this.checkbox.checkAllGroup);
+                    });
+            },
+            // 切换全选
+            handleCheckAll() {
+                if (this.checkbox.indeterminate) {
+                    this.checkbox.checkAll = false;
+                } else {
+                    this.checkbox.checkAll = !this.checkbox.checkAll;
+                }
+                this.checkbox.indeterminate = false;
+
+                if (this.checkbox.checkAll) {
+                    this.checkbox.checkAllGroup = this.checkbox.checkAllList;
+                } else {
+                    this.checkbox.checkAllGroup = [];
+                }
+
+                utils.showInfo(this.checkbox.checkAllGroup);
+            },
+            checkAllGroupChange(data) {
+                if (data.length === this.checkbox.checkAllList.length &&
+                    data.length !== 0) {
+                    this.checkbox.indeterminate = false;
+                    this.checkbox.checkAll = true;
+                } else if (data.length > 0) {
+                    this.checkbox.indeterminate = true;
+                    this.checkbox.checkAll = false;
+                } else {
+                    this.checkbox.indeterminate = false;
+                    this.checkbox.checkAll = false;
+                }
+
+                utils.showInfo(this.checkbox.checkAllGroup);
+            },
+            tableSelect(selection) {
+                if (this.type === "ph") {
+                    utils.ParsingPhData(selection);
+                }
+            },
             tableRowClick() {},
-            changePage() {},
-            changePageSize() {}
+            changePage(currentPage) {
+                this.tablePage.current = currentPage;
+                utils.changePage(currentPage);
+            },
+            changePageSize(size) {
+                this.tablePage.pageSize = size;
+                this.changePage(1);
+            }
         },
         mounted() {
             bindMenuSelectionAction = bindSelectionAction(this.menus);
             setTimeout(() => {
                 this.menuSelect('title',null,0,);
             },20);
+            utils = new TuYangCaiJiUtils(this,"echart");
+            window.$tuyangcaiji = this;
+
+            setTimeout(() => {
+                this.menuSelect('option',this.menus[0].options[0],0,0);
+            });
         },
         watch: {
             type(val) {
@@ -229,5 +332,16 @@
 </script>
 
 <style scoped>
-
+    /*#list-div .ivu-checkbox-group {*/
+    /*    border-top: 1px solid rgb(0 146 182) !important;*/
+    /*    border-left: 1px solid rgb(0 146 182) !important;*/
+    /*}*/
+    /*#list-div .ivu-checkbox-group-item {*/
+    /*    border-bottom: 1px solid rgb(0 146 182) !important;*/
+    /*    border-right: 1px solid rgb(0 146 182) !important;*/
+    /*}*/
+    /*#list-div span.ivu-checkbox-inner {*/
+    /*    border-color: #10617f !important;*/
+    /*    background-color: #10617f !important;*/
+    /*}*/
 </style>

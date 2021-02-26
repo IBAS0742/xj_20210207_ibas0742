@@ -6,7 +6,7 @@ import ShuiWenGuanCeZhan from "./views/地面监测/水文观测站/ShuiWenGuanC
 //import ZhongYaShengTaiYuHuangJingYanJiuZhongXinQiXiangZhanDian from "./views/地面监测/中亚生态与环境研究中心气象站点/ZhongYaShengTaiYuHuangJingYanJiuZhongXinQiXiangZhanDian";
 import LiShiQiXiangGuanCeShuJu from "./views/地面监测/历史气象观测数据/LiShiQiXiangGuanCeShuJu";
 import XianHaiYanChenJianCe from "./views/地面监测/咸海盐尘监测/XianHaiYanChenJianCe";
-//import TuYangCaiJi from "./views/地面监测/土样采集/TuYangCaiJi";
+import TuYangCaiJi from "./views/地面监测/土样采集/TuYangCaiJi";
 //import ShuiYang from "./views/地面监测/水样/ShuiYang";
 import GanHanZhiShu from "./views/遥感监测/干旱指数/GanHanZhiShu";
 //import ZhengSanFa from "./views/遥感监测/蒸散发/ZhengSanFa";
@@ -67,10 +67,10 @@ const routers = [
                path: "XianHaiYanChenJianCe",
                component: XianHaiYanChenJianCe
            },
-//            {
-//                path: "TuYangCaiJi",
-//                component: TuYangCaiJi
-//            },
+           {
+               path: "TuYangCaiJi",
+               component: TuYangCaiJi
+           },
 //            {
 //                path: "ShuiYang",
 //                component: ShuiYang
