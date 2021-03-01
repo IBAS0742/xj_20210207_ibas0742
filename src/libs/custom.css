@@ -140,32 +140,32 @@ span.ivu-checkbox-checked span.ivu-checkbox-inner {
     color: white;
 }
 /*下拉选择框样式修改开始*/
-/*.ivu-select .ivu-select-selection {*/
-/*    background: #10617f;*/
-/*}*/
-/*.ivu-select-dropdown {*/
-/*    background: #0092b6;*/
-/*    color: white;*/
-/*}*/
-/*.ivu-select-multiple .ivu-select-item-focus, .ivu-select-multiple .ivu-select-item-selected {*/
-/*    color: rgb(255 255 255);*/
-/*    background: #0092b6;*/
-/*}*/
-/*.ivu-select-multiple .ivu-select-item-selected:after {*/
-/*    color: white;*/
-/*}*/
-/*.ivu-select-multiple .ivu-select-item-selected:hover {*/
-/*    color: white;*/
-/*    background: #10617f;*/
-/*}*/
-/*.ivu-select-item {*/
-/*    background: #13829d;*/
-/*    color: white;*/
-/*}*/
-/*.ivu-select-item:hover {*/
-/*    color: white;*/
-/*    background: #10617f;*/
-/*}*/
+.ivu-select .ivu-select-selection {
+    background: #10617f;
+}
+.ivu-select-dropdown {
+    background: #0092b6;
+    color: white;
+}
+.ivu-select-multiple .ivu-select-item-focus, .ivu-select-multiple .ivu-select-item-selected {
+    color: rgb(255 255 255);
+    background: #0092b6;
+}
+.ivu-select-multiple .ivu-select-item-selected:after {
+    color: white;
+}
+.ivu-select-multiple .ivu-select-item-selected:hover {
+    color: white;
+    background: #10617f;
+}
+.ivu-select-item {
+    background: #13829d;
+    color: white;
+}
+.ivu-select-item:hover {
+    color: white;
+    background: #10617f;
+}
 .ivu-select-selected-value {
     color: white;
 }
