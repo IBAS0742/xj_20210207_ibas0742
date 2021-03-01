@@ -65,6 +65,14 @@ window.mapLayers = {
             transparent: true,
             format: 'image/png'
         }
+    },
+    蒸散发参数(type){
+        return {
+            styles: `et:et-style`,
+            service: 'WMS',
+            transparent: true,
+            format: 'image/png'
+        }
     }
 };
 
@@ -94,6 +102,23 @@ window.requestApis = {
                     raster, //: 'avi-2018-1',
                     geojson, //,
                     array: typeArray, //: avi: "0,1,2,3",
+                });
+            }
+        }
+    },
+    蒸散发() {
+        return {
+            requestEDay() {
+                return fetchFromUrl(window.allUrls.base + "table/et/result/listBy",{
+                    // dtype: type
+                });
+            },
+            tongji(raster,geojson) {
+                return fetchJsonPOST(window.allUrls.tongji, {
+                    raster, //: 20151,
+                    geojson, //,
+                    type: "et",
+                    array: '1,2,3,4,5,6,7,8,9999'
                 });
             }
         }

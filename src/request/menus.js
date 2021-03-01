@@ -94,7 +94,7 @@ const defaultMenu = {
                 {
                     "projectId": 18,
                     "parentId": 2,
-                    "name": "散蒸发",
+                    "name": "蒸散发",
                     "url": "./RemoteSensingMonitoring/ET/index.html",
                     "orderNum": 2,
                     "children": []
