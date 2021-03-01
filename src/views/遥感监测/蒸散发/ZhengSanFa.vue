@@ -156,11 +156,9 @@
             },
         },
         mounted() {
-            this.changeType(this.types[0].key,0);
             window.requestEDay = requestEDay;
 
             mapApis.drawer(true);
-            let $this = this;
             utils = new ZhengSanFaUtils(this,"et_tbody","et_echart");
             window.utils = utils;
 
@@ -169,6 +167,7 @@
                     utils.removeMapEchart();
                 }
             });
+            this.changeType(this.types[0].key,0);
 
         }
     }
