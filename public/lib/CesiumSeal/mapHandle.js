@@ -1,5 +1,8 @@
 /* 地图处理 | yangjianzhi 20200828 */
 window.mapHandle = (function () {
+    function _createId() {
+        return `${new Date().getTime()}_${parseInt(Math.random() * 1000)}`;
+    }
     //绘制图形方法
     var DrawHelper = (function () {
         'use strict';
@@ -91,7 +94,12 @@ window.mapHandle = (function () {
 
                 if (long && alt) {
                     var cartesian = Cesium.Cartesian3.fromDegrees(long, alt);
-                    var entity = DrawHelper.createBlackBackgroundLabel(cartesian, title, "entity_" + title);
+                    var entity = null;
+                    if (title) {
+                        entity = DrawHelper.createBlackBackgroundLabel(cartesian, title, "entity_" + title);
+                    } else {
+                        entity = DrawHelper.createBlackBackgroundLabel(cartesian, title, "entity_" + _createId());
+                    }
                     entity.properties = info; //关联信息
 
                     if (parentEntity) entity.parent = parentEntity;

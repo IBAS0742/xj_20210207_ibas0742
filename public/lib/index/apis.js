@@ -86,7 +86,14 @@ class PointEntity {
     }
 }
 
+const panelCallback = {
+    clearCallback() {}
+}
+
 class Apis {
+    // static panelCallback = {
+    //     clearCallback() {}
+    // }
     // destination 地图初始化看到的位置和缩放等级
     constructor(baseView) {
         this._baseView = baseView;
@@ -124,6 +131,15 @@ class Apis {
         this._mapOnClickCallBack = ()=>{};
         this.pointEntity = null;
     }
+
+    setPanelCallback(obj) {
+        for (let i in obj) {
+            if (i in panelCallback) {
+                panelCallback[i] = obj[i];
+            }
+        }
+    }
+
     init(viewer,magm) {
         if (window.parent === window) {
             this._parentWindows = window;
@@ -517,10 +533,16 @@ class Apis {
             this.removeEchart(eac.entity,eac.css3Renderer);
             return false;
         });
-        if (this.pointEntity) this.viewer.entities.remove(this.pointEntity);
+        if (this.pointEntity) {
+            this.viewer.entities.remove(this.pointEntity);
+            this.pointEntity.clearEntityChildren();
+        };
         this.bindPickerMethod(()=>{});
         this.updateMagmMethod(this._nullMagmMethods);
         this._mapOnClickCallBack = ()=>{};
+        this.panelCallback = {
+            clearCallback() {}
+        };
     }
 
     // year = 2018
@@ -534,4 +556,10 @@ class Apis {
         this.pointEntity = new PointEntity(this.viewer);
         return this.pointEntity;
     }
+
+    CVT() {
+        return CVT;
+    }
+
+
 }

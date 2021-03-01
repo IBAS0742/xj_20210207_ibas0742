@@ -1,5 +1,5 @@
 let MarkerControlPanel = class {
-    constructor(option,{MarkManager,GraphicManager},{marker,line,polygon}) {
+    constructor(option,{MarkManager,GraphicManager},{marker,line,polygon},callback/* = {clearCallback}*/) {
         this.viewer = null;
         this.divId = "marker_manager_panel_" + (new Date().getTime());
         this.divDom = null;
@@ -40,6 +40,9 @@ let MarkerControlPanel = class {
             line: line || false,
             polygon: polygon || false
         }
+        this.callback = callback; /*{
+            clearCallback: clearCallback || (() => {})
+        };*/
     }
 
     // 更新哪些控件显示哪些不显示
@@ -198,8 +201,9 @@ let MarkerControlPanel = class {
             $this.GraphicManager.createPolyline();
         }
         this.dom.clearLi.onclick = function () {
-            $this.GraphicManager.removeAll()
-            $this.MarkManager.removeAll()
+            $this.GraphicManager.removeAll();
+            $this.MarkManager.removeAll();
+            $this.callback.clearCallback();
         };
         if (this.dom.exportLi) {
             this.dom.exportLi.onclick = function () {
@@ -260,9 +264,9 @@ let MarkerControlPanel = class {
                 inp.click();
             }
         }
-        this.dom.cancelBtn.onclick = function () {
-            $this.MarkManager.cancelMark();
-        }
+        // this.dom.cancelBtn.onclick = function () {
+        //     $this.MarkManager.cancelMark();
+        // }
         this.dom.cancelBtn.onclick = function () {
             $this.MarkManager.cancelMark();
             $this.dom.addMarkerInfo.style.display = "none";

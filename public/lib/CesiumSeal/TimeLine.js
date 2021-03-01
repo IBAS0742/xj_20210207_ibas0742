@@ -27,6 +27,14 @@ class TimeLine {
         viewer.timeline.addEventListener('settime', function(e) {
             $this.onTimelineChange(e.timeJulian,CesiumUtils.julianIntToDate(e.timeJulian.dayNumber,$this.startTimeMill));
         }, false);
+        //回调函数
+        let id = setInterval(() => {
+            $this.onTimelineChange(viewer.clock.currentTime,CesiumUtils.julianIntToDate(viewer.clock.currentTime.dayNumber,$this.startTimeMill));
+        },200);
+        // viewer.clock.onTick.addEventListener(function () {
+        //     var currentTime = viewer.clock.currentTime.secondsOfDay;
+        //     $this.onTimelineChange(currentTime,CesiumUtils.julianIntToDate(currentTime));
+        // });
         this.providerId = null;
     }
 

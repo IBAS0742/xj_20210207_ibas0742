@@ -4,7 +4,7 @@
             <single-selection title="干旱指数" :selections="types" @select="changeType"
                               height="181px"></single-selection>
             <div class="menus-block">
-                <div class="menus-label">时间</div>
+                <div class="menus-label" style="padding: 0 6px;">时间</div>
                 <div style="padding-left: 20px;">
                     <div style="padding-top: 5px;">
                         <div style="display: inline-block;width: 66px;text-align: right;">年份：</div>
@@ -29,25 +29,23 @@
         <div slot="right">
             <div class="demo-split-pane" style="padding-top: 10px;">
                 <div>
-                    <div :style="tableDivStyle">
-                        <div style="float:left;">
-                            <span style="font-size: 20px;font-weight: bold;">{{tableTitle}}</span>
-                            <table cellspacing="0" cellpadding="1" border="1">
-                                <thead style="background-color: #B7C2C8;" >
-                                <tr>
-                                    <th colspan="2" style="width:100px;">数量统计</th>
-                                    <th v-for="i in 46">{{i}}</th>
-                                </tr>
-                                </thead>
-                                <tbody style="background-color: #DEE6E8;">
-                                <tr v-for="ds in edayInfo_tmp.yearList" :key=ds>
-                                    <td>{{ds}}年</td>
-                                    <td>{{edayInfo_tmp.all[ds].has}}期</td>
-                                    <td v-for="i in 46" :style="{background: 'radial-gradient(' + (edayInfo_tmp.all[ds].edayHas[i - 1] ? '#0092B6':'white') + ', transparent)'}"></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <div style="float:left;">
+                        <span style="font-size: 20px;font-weight: bold;">{{tableTitle}}</span>
+                        <table cellspacing="0" cellpadding="1" border="1">
+                            <thead style="background-color: #B7C2C8;" >
+                            <tr>
+                                <th colspan="2" style="width:100px;">数量统计</th>
+                                <th v-for="i in 46">{{i}}</th>
+                            </tr>
+                            </thead>
+                            <tbody style="background-color: #DEE6E8;">
+                            <tr v-for="ds in edayInfo_tmp.yearList" :key=ds>
+                                <td>{{ds}}年</td>
+                                <td>{{edayInfo_tmp.all[ds].has}}期</td>
+                                <td v-for="i in 46" :style="{background: 'radial-gradient(' + (edayInfo_tmp.all[ds].edayHas[i - 1] ? '#0092B6':'white') + ', transparent)'}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div :style="echartStyle" id="echart"></div>
                 </div>
@@ -64,7 +62,8 @@
         // getGanHanZhiShuLayerParams
         getLayerParameter
     } from "./layers";
-    import { tongji,requestEDay } from "./request";
+    import { tongji,requestEDay,draughtInfo } from "./request";
+    import { GanHanZhiShuUtils } from "./utils";
 
     // let provider = null;
     // 不想挂到 vue 上，一旦挂上就变化时就会被监听，特别耗内存
@@ -79,6 +78,7 @@
         // provider = window.mapApis.addSingleLayer(curLayers.url,curLayers.layers,curLayers.params);
         mapApis.stop();
         mapApis.removeTimelineLayer();
+        let tag = -1;
         mapApis.addTimelineLayer(
             $this.year + '-1-1',
             $this.year + "-12-31",
@@ -104,9 +104,15 @@
                 // console.log(date);
                 // console.log(day);
                 $this.eday = parseInt(day / 8) + 1;
-                $this.currentTime = `${$this.year}年${$this.eday}期（旬）`;
+                if (tag !== $this.eday) {
+                    tag = $this.eday;
+                    $this.currentTime = `${$this.year}年${$this.eday}期（旬）`;
+                    utils ? utils._tmpFn() : false;
+                }
             });
+        utils ? utils._tmpFn() : false;
     };
+    let utils = null;
     export default {
         components: {PlayButton, SingleSelection, ModelPage},
         name: "GanHanZhiShu",
@@ -134,12 +140,14 @@
                 echartStyle: {
                     width:"calc(100% - 1030px)",
                     display: "inline-block",
-                    height: "100px"
+                    height: "270px"
                 },
                 tableDivStyle: {
-                    width: "1020px",
+                    width: "598px",
                     display: "inline-block",
-                    height: "100px"
+                    height: "275px",
+                    // background: ;
+                    padding: "0 20px",
                 },
                 tableTitle:"AVI 距平指标指数",
                 edayInfo_tmp: {}
@@ -151,6 +159,8 @@
                 if (this.types[ind].selected) {
                     return false;
                 } else {
+                    mapApis.showImageLegend(`${window.allUrls.base}/table/image/DRAUGHT_${type.toLowerCase()}.jpg`);
+
                     // 修改菜单的选中情况
                     this.types.forEach((y,_ind) => {
                         if (y.selected) {
@@ -191,6 +201,7 @@
             changeEDay() {
                 // 将时间轴拨到当前影像的时间
                 window.mapApis.setTime(this.year,this.eday * 8 - 8);
+                utils ? utils._tmpFn() : false;
             },
             playBtnClick(tar) {
                 // this.currentSelectInd += tar === 'left'? -1 : 1;
@@ -203,58 +214,21 @@
                 }
                 this.playing = !this.playing;
             },
-            testCreateEchart() {
-                let pointInfo = { title: "乌孜别克斯坦",long: 61.75, lat: 46.89 };
-                let obj = mapApis.createEntityAndCss3Rnederer();
-                let echartObj = mapApis.createEchartDom(obj.entity,obj.css3Renderer,pointInfo);
-                echartObj.ec.setOption( {
-                    xAxis: {
-                        type: 'category',
-                        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                    },
-                    yAxis: {
-                        type: 'value'
-                    },
-                    series: [{
-                        data: [150, 230, 224, 218, 135, 147, 260],
-                        type: 'line'
-                    }]
-                });
-                echartObj.echartElement.style.display = 'block';
-            },
         },
         mounted() {
-            this.changeType(null,0);
+            this.changeType(this.types[0].key,0);
             window.requestEDay = requestEDay;
 
             mapApis.drawer(true);
             let $this = this;
-            mapApis.updateMagmMethod({
-                "POLYGON"(magm,obj,geojson) {
-                    tongji(`draught:${$this.type.toLowerCase()}_${$this.year}_${$this.eday}`,JSON.stringify(geojson.toGeoJson()),$this.type.toLowerCase())
-                        .then(_ => {
-                        console.log(_);
-                        let a = [];
-                        for (let i in _) {
-                            a.push([i,_[i]]);
-                        }
-                        a = a.sort((b,c) => b[0] - c[0]);
-                        return a.map(b => b[1]);
-                    }).then(datas => {
-                        this.echartElement = document.getElementById("echart");
-                        this._myChart = echarts.init(this.echartElement);
-                        // 创建一个 eAndC 对象，这个对象时用于创建地图上的 点 和在 点 所在位置创建一个 echart 图表
-                        this.eAndc = window.mapApis.createEntityAndCss3Rnederer();
-                        console.log(datas)
+            utils = new GanHanZhiShuUtils(this,"echart");
 
-                        // window.bar = createSimpleEchartBar("echart",() => {
-                        //     window.MarkerAndGraphicManager.GraphicManager.removeAll();
-                        // });
-                        // window.bar.setDatas(datas,draughtInfo.kindName[$this.type.toLowerCase()],`${$this.year}年第${$this.eday}旬${draughtInfo.typeName[$this.type.toLowerCase()]}`);
-                    })
+            mapApis.setPanelCallback({
+                clearCallback(){
+                    utils.removeMapEchart();
                 }
             });
-            this.testCreateEchart()
+
         }
     }
 </script>

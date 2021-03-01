@@ -166,6 +166,12 @@ span.ivu-checkbox-checked span.ivu-checkbox-inner {
     color: white;
     background: #10617f;
 }
+.ivu-select-selected-value {
+    color: white;
+}
+.ivu-select-arrow {
+    color: white;
+}
 /*下拉选择框样式修改结束*/
 /*弹窗样式修改开始*/
 .ivu-modal-content {

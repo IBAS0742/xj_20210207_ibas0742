@@ -231,7 +231,15 @@ function initMapViews(path,cb,ejs,ecss,config,libPath) {
     };
 
     const ret = {
-        initMarkerAndGraphicManager(viewer,cb) {
+        /**
+         *
+         * @param viewer
+         * @param cb
+         * @param panelCallback = {
+         *          clearCallback() {} // 清除全部绘制的图形后的回调
+         *      }
+         */
+        initMarkerAndGraphicManager(viewer,cb,panelCallback) {
             if (!noMarkerAndGraphicManager) {
                 // 颜色参考 https://cesium.com/docs/cesiumjs-ref-doc/Color.html?classFilter=color
                 // color 表示闪烁时的颜色
@@ -299,7 +307,7 @@ function initMapViews(path,cb,ejs,ecss,config,libPath) {
                     window._click_marker = obj;
                     console.log(obj);
                 });
-                MarkerAndGraphicManager.panel = new MarkerControlPanel({},MarkerAndGraphicManager,{}).init(viewer);
+                MarkerAndGraphicManager.panel = new MarkerControlPanel({},MarkerAndGraphicManager,{},panelCallback).init(viewer);
                 pickFeature = new PickFeature(viewer);
                 // 定义点击事件接口，虽然在 markerManager.js 中定义了一部分
                 if (!window.handler) {

@@ -27,7 +27,7 @@
             let obj = noMap ? "" : setBaseView("mapContainer",{ timeline: true });
             window.viewer = obj.viewer;
             window._map_on_click_ = function() {};
-            ret.initMarkerAndGraphicManager(window.viewer);
+            ret.initMarkerAndGraphicManager(window.viewer,null,panelCallback);
             // ret.initMarkerAndGraphicManager(window.viewer,window._map_on_click_);
             window.MarkerAndGraphicManager.panel.updateIconStatus({ polygon: true });
             window.apis = new Apis(obj.baseView).init(window.viewer,window.MarkerAndGraphicManager);
@@ -40,7 +40,7 @@
                         clearInterval(id);
                     }
                 });
-            })
+            },500);
             // window._map_on_click_ = function (obj) {
             //     window.apis.mapOnClick(obj);
             // }
