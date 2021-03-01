@@ -1,7 +1,8 @@
 import {draughtInfo, tongji} from "./request";
+import {getLayerParameter} from "./layers";
 
 class GanHanZhiShuUtils {
-    constructor($this,echartDomId) {
+    constructor($this,tbodyId,echartDomId) {
         this.$this = $this;
         this.echartDom = document.getElementById(echartDomId);
         this.ec = echarts.init(this.echartDom);
@@ -9,6 +10,8 @@ class GanHanZhiShuUtils {
         this.mapEchart = null;
         this._tmpFn = () => {};
         this.init();
+        this.tbodyEle = document.getElementById(tbodyId);
+        this.edayInfo = {};
     }
 
     init() {
@@ -638,6 +641,75 @@ class GanHanZhiShuUtils {
             lat: center.lat / geojson.positions.length,
             long: center.long / geojson.positions.length,
         }
+    }
+
+    updateLayer() {
+        let $this = this.$this;
+        let $this$ = this;
+        // todo 这里应该调用 mapApis 换对应的栅格图片
+        // window.mapApis.removeSingleLayer(provider);
+        //$this.type = type
+        let type = $this.types[$this.currentSelectInd].key;
+        let edays = this.edayInfo.all[$this.year].eday;
+        // let curLayers = getGanHanZhiShuLayerParams(type,this.year,this.eday);
+        // provider = window.mapApis.addSingleLayer(curLayers.url,curLayers.layers,curLayers.params);
+        mapApis.stop();
+        mapApis.removeTimelineLayer();
+        let tag = -1;
+        mapApis.addTimelineLayer(
+            $this.year + '-1-1',
+            $this.year + "-12-31",
+            window.allUrls.geoserver + "draught/wms",
+            getLayerParameter(type)
+            ,function ({year,month,day,dd}) {
+                let eday = parseInt(dd / 8) + 1;
+                if (!edays.includes(eday)) {
+                    //window.vueMessage(`没有日期为 ${$menus.year}年 ${eday}旬 的影像`,'info');
+                    let ind = 0;
+                    for (;ind <  edays.length;ind++) {
+                        if ( edays[ind] > eday) break;
+                    }
+                    if (ind === 0) eday = edays[ind]; else eday = edays[ind - 1];
+                }
+                return {
+                    layers: `draught:${type.toLowerCase()}_${year}_${eday}`,
+                    query_layers: `draught:${type.toLowerCase()}_${year}_${eday}`,
+                    // layers: `xj_test:vhi${year}${eday}`,
+                    // query_layers: `xj_test:vhi${year}${eday}`,
+                };
+            },function (j,{Y,M,D,date,day}) {
+                // console.log(date);
+                // console.log(day);
+                $this.eday = parseInt(day / 8) + 1;
+                if (tag !== $this.eday) {
+                    tag = $this.eday;
+                    $this.currentTime = `${$this.year}年${$this.eday}期（旬）`;
+                    $this$._tmpFn();
+                }
+            });
+        $this$._tmpFn();
+    }
+
+    updateTable() {
+        let dom = ``;
+        this.edayInfo.yearList.forEach(ys => {
+            dom += `<tr>
+                <td>${ys}年</td>
+                <td>${this.edayInfo.all[ys].has}旗</td>
+                ${(_ => {
+                    let tds = ``;
+                    for (let i = 0;i < 46;i++) {
+                        if (this.edayInfo.all[ys].edayHas[i]) {
+                            tds += `<td style="background: radial-gradient(#0092B6,transparent);"></td>`;
+                        } else {
+                            tds += `<td style="background: radial-gradient(white,transparent);"></td>`;
+                        }
+                    }
+                    return tds;
+                        })()}
+            </tr>`;
+        });
+        this.tbodyEle.innerHTML = dom;
     }
 }
 

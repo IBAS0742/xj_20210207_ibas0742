@@ -38,16 +38,10 @@
                                 <th v-for="i in 46">{{i}}</th>
                             </tr>
                             </thead>
-                            <tbody style="background-color: #DEE6E8;">
-                            <tr v-for="ds in edayInfo_tmp.yearList" :key=ds>
-                                <td>{{ds}}年</td>
-                                <td>{{edayInfo_tmp.all[ds].has}}期</td>
-                                <td v-for="i in 46" :style="{background: 'radial-gradient(' + (edayInfo_tmp.all[ds].edayHas[i - 1] ? '#0092B6':'white') + ', transparent)'}"></td>
-                            </tr>
-                            </tbody>
+                            <tbody style="background-color: #DEE6E8;" id="draught_tbody"></tbody>
                         </table>
                     </div>
-                    <div :style="echartStyle" id="echart"></div>
+                    <div :style="echartStyle" id="draught_echart"></div>
                 </div>
             </div>
         </div>
@@ -67,51 +61,6 @@
 
     // let provider = null;
     // 不想挂到 vue 上，一旦挂上就变化时就会被监听，特别耗内存
-    let edayInfo = null;
-    let updateLayer = ($this) => {
-        // todo 这里应该调用 mapApis 换对应的栅格图片
-        // window.mapApis.removeSingleLayer(provider);
-        //$this.type = type
-        let type = $this.types[$this.currentSelectInd].key;
-        let edays = edayInfo.all[$this.year].eday;
-        // let curLayers = getGanHanZhiShuLayerParams(type,this.year,this.eday);
-        // provider = window.mapApis.addSingleLayer(curLayers.url,curLayers.layers,curLayers.params);
-        mapApis.stop();
-        mapApis.removeTimelineLayer();
-        let tag = -1;
-        mapApis.addTimelineLayer(
-            $this.year + '-1-1',
-            $this.year + "-12-31",
-            window.allUrls.geoserver + "draught/wms",
-            getLayerParameter(type)
-            ,function ({year,month,day,dd}) {
-                let eday = parseInt(dd / 8) + 1;
-                if (!edays.includes(eday)) {
-                    //window.vueMessage(`没有日期为 ${$menus.year}年 ${eday}旬 的影像`,'info');
-                    let ind = 0;
-                    for (;ind <  edays.length;ind++) {
-                        if ( edays[ind] > eday) break;
-                    }
-                    if (ind === 0) eday = edays[ind]; else eday = edays[ind - 1];
-                }
-                return {
-                    layers: `draught:${type.toLowerCase()}_${year}_${eday}`,
-                    query_layers: `draught:${type.toLowerCase()}_${year}_${eday}`,
-                    // layers: `xj_test:vhi${year}${eday}`,
-                    // query_layers: `xj_test:vhi${year}${eday}`,
-                };
-            },function (j,{Y,M,D,date,day}) {
-                // console.log(date);
-                // console.log(day);
-                $this.eday = parseInt(day / 8) + 1;
-                if (tag !== $this.eday) {
-                    tag = $this.eday;
-                    $this.currentTime = `${$this.year}年${$this.eday}期（旬）`;
-                    utils ? utils._tmpFn() : false;
-                }
-            });
-        utils ? utils._tmpFn() : false;
-    };
     let utils = null;
     export default {
         components: {PlayButton, SingleSelection, ModelPage},
@@ -150,7 +99,6 @@
                     padding: "0 20px",
                 },
                 tableTitle:"AVI 距平指标指数",
-                edayInfo_tmp: {}
             }
         },
         methods:{
@@ -175,9 +123,7 @@
                     this.tableTitle = this.types[ind].value
                     let $this = this;
                     requestEDay($this.type).then(ei => {
-                        edayInfo = ei;
-                        window.ei = ei;
-                        $this.edayInfo_tmp = ei
+                        utils.edayInfo = ei;
                         // 更新时间
                         $this.yearList.splice(0,$this.yearList.length,...ei.yearList);
                         $this.edayList.splice(0,$this.edayList.length,...ei.all[ei.yearList[0]].eday);
@@ -186,17 +132,18 @@
                         $this.time = [0,0];
                         $this.currentTime = `${$this.year}年${$this.eday}期（旬）`;
                         // 这里需要重置时间轴
-                        updateLayer($this);
+                        utils ? utils.updateLayer() : false;
+                        utils ? utils.updateTable() : false;
                         // 将时间轴拨到第一张影像的时间
                         window.mapApis.setTime($this.year,$this.eday * 8);
                     });
                 }
             },
             changeYear() {
-                this.edayList = edayInfo.all[this.year].eday
+                this.edayList = utils.edayInfo.all[this.year].eday
                 this.eday = this.edayList[0];
                 // 将时间轴拨到当前影像的时间
-                updateLayer(this);
+                utils ? utils.updateLayer() : false;
             },
             changeEDay() {
                 // 将时间轴拨到当前影像的时间
@@ -221,7 +168,8 @@
 
             mapApis.drawer(true);
             let $this = this;
-            utils = new GanHanZhiShuUtils(this,"echart");
+            utils = new GanHanZhiShuUtils(this,"draught_tbody","draught_echart");
+            window.utils = utils;
 
             mapApis.setPanelCallback({
                 clearCallback(){

@@ -174,6 +174,17 @@ window.mapLayers = {
 
 因此如果模块中部分点不在事先声明的范围内，需要执行 apis.setBaseView，默认范围在 apis.setBaseView 中
 
+- 问题2：无法监听时间变化（时间序列影像，在播放时无法获取到影像是否变化的情况）
+
+在[timeline代码](./public/lib/CesiumSeal/TimeLine.js)中添加以下内容
+
+```javascript
+//回调函数
+let id = setInterval(() => {
+    $this.onTimelineChange(viewer.clock.currentTime,CesiumUtils.julianIntToDate(viewer.clock.currentTime.dayNumber,$this.startTimeMill));
+},200);
+```
+
 ### 各个页面的开发说明
 
 [apis接口使用说明](./document/apis接口使用说明.md)
