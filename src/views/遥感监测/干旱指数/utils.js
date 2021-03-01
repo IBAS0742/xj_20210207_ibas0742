@@ -4,12 +4,18 @@ import {getLayerParameter} from "./layers";
 class GanHanZhiShuUtils {
     constructor($this,tbodyId,echartDomId) {
         this.$this = $this;
+        // 右下角的 echart 图表
         this.echartDom = document.getElementById(echartDomId);
         this.ec = echarts.init(this.echartDom);
+        // 地图中的 echart 管理
         this.eAndc = window.mapApis.createEntityAndCss3Rnederer();
+        // 地图中的  echart 实体，因为整个地图只有一个 echart ，所以这里需要单独标记用于删除重建新的 echart
         this.mapEchart = null;
+
+        // 用于更新
         this._tmpFn = () => {};
         this.init();
+        // 左下角的表格
         this.tbodyEle = document.getElementById(tbodyId);
         this.edayInfo = {};
     }
@@ -17,6 +23,7 @@ class GanHanZhiShuUtils {
     init() {
         let $this = this.$this;
         let $this$ = this;
+        // 定义在地图中绘制的多边形的回调事件，这里是向服务器请求区域的统计数据
         mapApis.updateMagmMethod({
             "POLYGON"(magm,obj,geojson) {
                 $this$._tmpFn = () => {
@@ -50,6 +57,7 @@ class GanHanZhiShuUtils {
     //     );
     // }
 
+    // 获取 echart 图表的 options，齐总 title_ = null/undefined 表示这个 option 是绘制在地图上的 echart 图表用到的
     getOption(datas,labels,title_) {
         let obj = title_ ? {
             title: {
@@ -102,6 +110,7 @@ class GanHanZhiShuUtils {
             ]
         }
     }
+    // 这是一个测试而已，可删除
     getOption_() {
         return {
             "color": [
@@ -608,16 +617,19 @@ class GanHanZhiShuUtils {
             "dataZoom": []
         };
     }
+    // 设置 左小角的 echart 图表的 option
     setOption(datas,labels,title) {
         this.ec.setOption(this.getOption(datas,labels,title));
         this.ec.resize();
     }
 
+    // 移除地图中的图表
     removeMapEchart() {
         if (this.mapEchart) {
             window.mapApis.removeEchart(this.eAndc.entity,this.eAndc.css3Renderer);
         }
     }
+    // 更新地图中的图表
     updateMapEchart(datas,labels,geojson) {
         this.removeMapEchart();
         let center = this.getGeoJsonCenter(geojson);
@@ -643,6 +655,8 @@ class GanHanZhiShuUtils {
         }
     }
 
+    // 更新图层，这里是在 类型(avi、vhi、vswi、result) 改变时、在年份改变时 调用，
+    // 这里时更改时间轴的范围
     updateLayer() {
         let $this = this.$this;
         let $this$ = this;
@@ -654,6 +668,7 @@ class GanHanZhiShuUtils {
         // let curLayers = getGanHanZhiShuLayerParams(type,this.year,this.eday);
         // provider = window.mapApis.addSingleLayer(curLayers.url,curLayers.layers,curLayers.params);
         mapApis.stop();
+        $this.playing = false;
         mapApis.removeTimelineLayer();
         let tag = -1;
         mapApis.addTimelineLayer(
@@ -687,9 +702,11 @@ class GanHanZhiShuUtils {
                     $this$._tmpFn();
                 }
             });
+        // 这个方法在 init 中的函数中 定义了，
         $this$._tmpFn();
     }
 
+    // 更新左下角的 表格
     updateTable() {
         let dom = ``;
         this.edayInfo.yearList.forEach(ys => {
