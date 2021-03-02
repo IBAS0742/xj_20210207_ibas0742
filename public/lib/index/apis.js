@@ -445,9 +445,9 @@ class Apis {
      * @param _css3Renderer /
      * @param pointInfo = { title: "乌孜别克斯坦",long: 61.75, lat: 46.89 }
      * */
-    createEchartDom(entity,_css3Renderer,pointInfo) {
+    createEchartDom(entity,_css3Renderer,pointInfo,style) {
         let obj = window.mapHandle.createEchartDom(entity,_css3Renderer,
-            this.viewer,pointInfo,this._createId());
+            this.viewer,pointInfo,this._createId(),style);
         let ec = echarts.init(obj.echartElement);
         return {
             ...obj,

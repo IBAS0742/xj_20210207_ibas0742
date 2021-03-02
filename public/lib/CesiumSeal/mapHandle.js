@@ -147,15 +147,25 @@ window.mapHandle = (function () {
     }
 
     // 创建 echart
-    function createEchartDom(entity,_css3Renderer,viewer,{long,lat,title},id) {
+    function createEchartDom(entity,_css3Renderer,viewer,{long,lat,title},id,style) {
         // let _css3Renderer = new Css3Renderer(viewer,true);
         // let entity = createEntity();
         createPoint([{long,lat,title}],'long','lat','title',entity);
+        style = Object.assign({
+            width: '100px',
+            height: '60px',
+            "background-color": '#ffffff',
+            display: 'none'
+        },style || {});
+        let styleStr = '';
+        for (let i in style) {
+            styleStr += `${i}: ${style[i]};`;
+        }
         _css3Renderer.addEntityLayer({
             id: id,
             position: [long,lat, 200],//高度为 boxHeightMax
             element: `<div class="ys-css3-box">
-                        <div id="${id}" style="width: 100px;height:60px;background-color: #FFFFFF; display: none;"></div>
+                        <div id="${id}" style="${styleStr}"></div>
                    </div>`,
             offset: [ -50 ,10],
             boxShow: false,

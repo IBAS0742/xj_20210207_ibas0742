@@ -11,7 +11,7 @@ import ShuiYang from "./views/地面监测/水样/ShuiYang";
 import GanHanZhiShu from "./views/遥感监测/干旱指数/GanHanZhiShu";
 import ZhengSanFa from "./views/遥感监测/蒸散发/ZhengSanFa";
 //import DaHuQuTGDVI from "./views/遥感监测/大湖区TGDVI/DaHuQuTGDVI";
-//import SheHuiJingJi from "./views/水与社会经济/社会经济/SheHuiJingJi";
+import SheHuiJingJi from "./views/水与社会经济/社会经济/SheHuiJingJi";
 //import SheHuiJingJiYongShuiYuCe from "./views/水与社会经济/社会经济用水预测/SheHuiJingJiYongShuiYuCe";
 //import ZhongZhiJieGou from "./views/农业大数据/种植结构/ZhongZhiJieGou";
 //import TuDiLiYong from "./views/农业大数据/土地利用/TuDiLiYong";
@@ -87,10 +87,10 @@ const routers = [
 //                path: "DaHuQuTGDVI",
 //                component: DaHuQuTGDVI
 //            },
-//            {
-//                path: "SheHuiJingJi",
-//                component: SheHuiJingJi
-//            },
+           {
+               path: "SheHuiJingJi",
+               component: SheHuiJingJi
+           },
 //            {
 //                path: "SheHuiJingJiYongShuiYuCe",
 //                component: SheHuiJingJiYongShuiYuCe
