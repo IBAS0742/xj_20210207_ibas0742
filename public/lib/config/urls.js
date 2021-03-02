@@ -6,7 +6,8 @@ window.allUrls = {
     'image': 'http://10.10.1.132/basemap/影像/{z}/{x}/{y}.jpg',
     'geoserver': 'http://10.10.1.132:8080/geoserver/',
     'base': "http://10.10.1.132:8081/",
-    tongji: 'http://10.10.1.132:8000/tongji/'
+    tongji: 'http://10.10.1.132:8000/tongji/',
+    realtime: "http://10.10.1.132:8090",
 }
 
 window.mapLayers = {
@@ -88,7 +89,48 @@ window.mapLayers = {
 
 window.requestApis = {
     水文观测站点() {
-
+        return {
+            getLocations() {
+                return fetchOnlyFromUrl(window.allUrls.realtime + '/query/realtime/data/locations',{},'get')
+                    // .then(_ => {
+                    //     return _.data
+                    // })
+                    // .then(_ => {
+                    //     let menus = {};
+                    //     _.forEach(lo => {
+                    //         if (!(lo.areaCode in menus)) {
+                    //             menus[lo.areaCode] = [];
+                    //         }
+                    //         menus[lo.areaCode].push({
+                    //             title: lo.address,
+                    //             id: lo.id + "_" + lo.areaCode + "_" + lo.address,
+                    //             ...lo,
+                    //         });
+                    //     });
+                    //     let omenus = [];
+                    //     for (let i in menus) {
+                    //         omenus.push({
+                    //             title: i,
+                    //             sub: menus[i]
+                    //         });
+                    //     }
+                    //     return omenus;
+                    // });
+            },
+            getDrivers(locationId) {
+                return fetchOnlyFromUrl(window.allUrls.realtime + '/query/realtime/data/devices',{locationId},'get')
+                    //.then(_ => _.data)
+            },
+            getDriversDef(deviceId) {
+                return fetchOnlyFromUrl(window.allUrls.realtime + `/query/realtime/data/${deviceId}`,{},'get')
+                    //.then(_ => _.data);
+            },
+            getDriversDatas(DeviceId,from,to,limit) {
+                limit = limit || 100;
+                return fetchOnlyFromUrl(`${window.allUrls.realtime}/query/realtime/data/${DeviceId}/${from}/${to}/${limit}`,{},'get')
+                    //.then(_ => _.data);
+            }
+        }
     },
     干旱指数() {
         return {

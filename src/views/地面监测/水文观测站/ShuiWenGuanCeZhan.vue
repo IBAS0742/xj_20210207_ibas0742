@@ -98,6 +98,7 @@
              * }
              */
             changeStation(node) {
+                document.getElementById('swgcz_echart').innerHTML = '';
                 let $this = this;
                 requestDrivers(node.locationId)
                     .then(drivers => {
