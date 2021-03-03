@@ -6,7 +6,7 @@ var EChartsOptCls = function (opts) {
         grid: {
             top: 10,
             bottom: 25,
-            left: 30,
+            left: 60,
             right: 5,
         },
         tooltip: {
