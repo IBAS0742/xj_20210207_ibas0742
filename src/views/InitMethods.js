@@ -11,7 +11,7 @@ import { GanHanZhiShuInit } from "./遥感监测/干旱指数/init";
 import { ZhengSanFaInit } from "./遥感监测/蒸散发/init";
 //import { DaHuQuTGDVIInit } from "./遥感监测/大湖区TGDVI/init";
 import { SheHuiJingJiInit } from "./水与社会经济/社会经济/init";
-//import { SheHuiJingJiYongShuiYuCeInit } from "./水与社会经济/社会经济用水预测/init";
+import { SheHuiJingJiYongShuiYuCeInit } from "./水与社会经济/社会经济用水预测/init";
 //import { ZhongZhiJieGouInit } from "./农业大数据/种植结构/init";
 //import { TuDiLiYongInit } from "./农业大数据/土地利用/init";
 //import { HeDaoLiuLiangSWATInit } from "./三大湖区水生态平衡/河道流量(SWAT)/init";
@@ -118,11 +118,11 @@ const InitMethods = new (class {
                init = SheHuiJingJiInit();
                jump = () => this.router.push("SheHuiJingJi");
                break;
-//            case "社会经济用水预测":
-//                case "SheHuiJingJiYongShuiYuCe":
-//                init = SheHuiJingJiYongShuiYuCeInit();
-//                jump = () => this.router.push("SheHuiJingJiYongShuiYuCe");
-//                break;
+           case "社会经济用水预测":
+               case "SheHuiJingJiYongShuiYuCe":
+               init = SheHuiJingJiYongShuiYuCeInit();
+               jump = () => this.router.push("SheHuiJingJiYongShuiYuCe");
+               break;
 //            case "种植结构":
 //                case "ZhongZhiJieGou":
 //                init = ZhongZhiJieGouInit();

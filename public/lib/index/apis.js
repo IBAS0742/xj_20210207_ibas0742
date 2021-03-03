@@ -506,6 +506,7 @@ class Apis {
 
     // 销毁全部内容，在使用新模块时调用
     removeAll() {
+        this.drawer(false);
         this.resetView();
         this._layerIds.imageryProvider = this._layerIds.imageryProvider.filter(id => {
             for (let i = 0;i < this.viewer.imageryLayers._layers.length;i++) {
