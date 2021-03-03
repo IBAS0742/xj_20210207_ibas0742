@@ -21,7 +21,7 @@ import SheHuiJingJiYongShuiYuCe from "./views/水与社会经济/社会经济用
 //import XianHaiHuQuShuiWen-ShengTai-HuanJingMoNi from "./views/三大湖区水生态平衡/咸海湖区水文-生态-环境模拟/XianHaiHuQuShuiWen-ShengTai-HuanJingMoNi";
 import ZhongYaZhiBeiGongNeng from "./views/咸海生态服务评估/中亚植被功能/ZhongYaZhiBeiGongNeng";
 //import ZhongYaTuRangGongNeng from "./views/咸海生态服务评估/中亚土壤功能/ZhongYaTuRangGongNeng";
-//import XianHaiLiuYuShengTaiFuWuGongNengPingGu from "./views/咸海生态服务评估/咸海流域生态服务功能评估/XianHaiLiuYuShengTaiFuWuGongNengPingGu";
+import XianHaiLiuYuShengTaiFuWuGongNengPingGu from "./views/咸海生态服务评估/咸海流域生态服务功能评估/XianHaiLiuYuShengTaiFuWuGongNengPingGu";
 //import XianHaiLiuYuShengTaiFuWuJiaZhiPingGu from "./views/咸海生态服务评估/咸海流域生态服务价值评估/XianHaiLiuYuShengTaiFuWuJiaZhiPingGu";
 //import XianHaiLiuYuLiShiGanHanFengXian1940-2010 from "./views/生态风险评估/咸海流域历史干旱风险(1940-2010)/XianHaiLiuYuLiShiGanHanFengXian1940-2010";
 //import XianHaiLiuYuWeiLaiGanHanFengXian2020-2050 from "./views/生态风险评估/咸海流域未来干旱风险(2020-2050)/XianHaiLiuYuWeiLaiGanHanFengXian2020-2050";
@@ -127,10 +127,10 @@ const routers = [
 //                path: "ZhongYaTuRangGongNeng",
 //                component: ZhongYaTuRangGongNeng
 //            },
-//            {
-//                path: "XianHaiLiuYuShengTaiFuWuGongNengPingGu",
-//                component: XianHaiLiuYuShengTaiFuWuGongNengPingGu
-//            },
+           {
+               path: "XianHaiLiuYuShengTaiFuWuGongNengPingGu",
+               component: XianHaiLiuYuShengTaiFuWuGongNengPingGu
+           },
 //            {
 //                path: "XianHaiLiuYuShengTaiFuWuJiaZhiPingGu",
 //                component: XianHaiLiuYuShengTaiFuWuJiaZhiPingGu

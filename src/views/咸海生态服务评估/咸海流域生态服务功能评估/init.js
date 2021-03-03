@@ -1,5 +1,5 @@
 function XianHaiLiuYuShengTaiFuWuGongNengPingGuInit() {
-    window.spop.setRate(1);
+    window.spop.setRate(0.664);
 }
 
 export {XianHaiLiuYuShengTaiFuWuGongNengPingGuInit}

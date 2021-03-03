@@ -17,7 +17,7 @@
             <div slot="left">
             </div>
             <div style="width: 100%;height: 100%;" slot="other">
-                <SheHuiJingJiYongShuiYuCe></SheHuiJingJiYongShuiYuCe>
+                <XianHaiLiuYuShengTaiFuWuGongNengPingGu></XianHaiLiuYuShengTaiFuWuGongNengPingGu>
             </div>
         </IndexLayout>
     </div>
@@ -27,7 +27,7 @@
     import { SplitPanelOP } from "../libs/splitPanelOP";
     import { layoutConfig } from "../libs/layoutConfig";
     import { InitMethods } from "./InitMethods";
-    import SheHuiJingJiYongShuiYuCe from "./水与社会经济/社会经济用水预测/SheHuiJingJiYongShuiYuCe";
+    import XianHaiLiuYuShengTaiFuWuGongNengPingGu from "./咸海生态服务评估/咸海流域生态服务功能评估/XianHaiLiuYuShengTaiFuWuGongNengPingGu";
 
     let spop = new SplitPanelOP();
 
@@ -41,7 +41,7 @@
                 defaultPath: layoutConfig.defaultPath()
             }
         },
-        components: {SheHuiJingJiYongShuiYuCe, IndexLayout },
+        components: {XianHaiLiuYuShengTaiFuWuGongNengPingGu, IndexLayout },
         methods: {
             menuChange(m) {
                 console.log(m);

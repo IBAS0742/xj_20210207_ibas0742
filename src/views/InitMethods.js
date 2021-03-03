@@ -20,7 +20,7 @@ import { SheHuiJingJiYongShuiYuCeInit } from "./水与社会经济/社会经济�
 //import { XianHaiHuQuShuiWen-ShengTai-HuanJingMoNiInit } from "./三大湖区水生态平衡/咸海湖区水文-生态-环境模拟/init";
 import { ZhongYaZhiBeiGongNengInit } from "./咸海生态服务评估/中亚植被功能/init";
 //import { ZhongYaTuRangGongNengInit } from "./咸海生态服务评估/中亚土壤功能/init";
-//import { XianHaiLiuYuShengTaiFuWuGongNengPingGuInit } from "./咸海生态服务评估/咸海流域生态服务功能评估/init";
+import { XianHaiLiuYuShengTaiFuWuGongNengPingGuInit } from "./咸海生态服务评估/咸海流域生态服务功能评估/init";
 //import { XianHaiLiuYuShengTaiFuWuJiaZhiPingGuInit } from "./咸海生态服务评估/咸海流域生态服务价值评估/init";
 //import { XianHaiLiuYuLiShiGanHanFengXian1940-2010Init } from "./生态风险评估/咸海流域历史干旱风险(1940-2010)/init";
 //import { XianHaiLiuYuWeiLaiGanHanFengXian2020-2050Init } from "./生态风险评估/咸海流域未来干旱风险(2020-2050)/init";
@@ -163,11 +163,11 @@ const InitMethods = new (class {
 //                init = ZhongYaTuRangGongNengInit();
 //                jump = () => this.router.push("ZhongYaTuRangGongNeng");
 //                break;
-//            case "咸海流域生态服务功能评估":
-//                case "XianHaiLiuYuShengTaiFuWuGongNengPingGu":
-//                init = XianHaiLiuYuShengTaiFuWuGongNengPingGuInit();
-//                jump = () => this.router.push("XianHaiLiuYuShengTaiFuWuGongNengPingGu");
-//                break;
+           case "咸海流域生态服务功能评估":
+               case "XianHaiLiuYuShengTaiFuWuGongNengPingGu":
+               init = XianHaiLiuYuShengTaiFuWuGongNengPingGuInit();
+               jump = () => this.router.push("XianHaiLiuYuShengTaiFuWuGongNengPingGu");
+               break;
 //            case "咸海流域生态服务价值评估":
 //                case "XianHaiLiuYuShengTaiFuWuJiaZhiPingGu":
 //                init = XianHaiLiuYuShengTaiFuWuJiaZhiPingGuInit();
