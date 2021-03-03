@@ -562,5 +562,7 @@ class Apis {
         return CVT;
     }
 
-
+    showCurrentPoint() {
+        console.log(CVT.cartesian2Wgs84(this.viewer.camera.position,this.viewer));
+    }
 }

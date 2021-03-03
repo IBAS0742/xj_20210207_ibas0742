@@ -8,6 +8,46 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
     <script src="./lib/config/urls.js"></script>
     <script src="./lib/echart/echarts.min.js"></script>
+    <script>
+      String.prototype.splitSheet = function () {
+        let mp = this.split('\n').filter(_ => _.trim()).map(_ => _.split('\t').map(_ => +_));
+        let arr = [];
+        for (let i = 0;i < mp[0].length;i++) {
+          arr.push([])
+        }
+        mp.forEach(m => {
+          m.forEach((m_,ind) => {
+            arr[ind].push(m_);
+          });
+        });
+        return arr;
+      }
+      String.prototype.splitSheetHero = function() {
+        let mp = this.split('\n').filter(_ => _.trim()).map(_ => _.split('\t').map(_ => {
+          let v = +_;
+          if (v+'' === _) {
+            return v;
+          } else {
+            return _;
+          }
+        }));
+        return mp;
+      };
+      String.prototype.splitFiles = function () {
+        return this.split('\n').map(_ => _.split('.tif')[0].trim().toLowerCase().replace(/[\.]/g,''))
+      };
+      Array.prototype.clear = function() {
+        this.splice(0,this.length);
+        return this;
+      };
+      Array.prototype.clearAndSet = function(arr) {
+        this.clear().splice(0,0,...arr);
+        return this;
+      };
+      Array.prototype.clone = function() {
+        return JSON.parse(JSON.stringify(this));
+      };
+    </script>
   </head>
   <body>
     <noscript>
