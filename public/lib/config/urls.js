@@ -74,6 +74,18 @@ window.mapLayers = {
             transparent: true,
             format: 'image/png'
         }
+    },
+    中亚植被功能(){
+        return {
+            url: window.allUrls.geoserver + "zhibei/wms",
+            layers: `zhibei:zhibei`,
+            params: {
+                // styles: `draught:${type}`,
+                service: 'WMS',
+                transparent: true,
+                format: 'image/png'
+            }
+        }
     }
 };
 
@@ -165,6 +177,18 @@ window.requestApis = {
             }
         }
     },
+    中亚植被功能() {
+        return {
+            tongji(geojson) {
+                return fetchJsonPOST(window.allUrls.tongji, {
+                    raster:"zhibei:zhibei", //: 20151,
+                    geojson, //,
+                    type: "zhibei",
+                    array: '1,2,3,4,5,6,7,8,9,10'
+                });
+            }
+        };
+    }
 
 }
 

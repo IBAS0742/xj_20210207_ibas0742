@@ -4,11 +4,11 @@
             <MultiSelection :selections="menus" @select="menuSelect"
                             height="820" style="margin-bottom: 40px;"></MultiSelection>
         </div>
-        <div slot="right" style="width: 100%;height: 100%;padding: 12px 30px;">
+        <div slot="right" style="width: 100%;height: 100%;padding: 12px 4px;">
             <div style="user-select: none;">
-                <div style="display: flex; padding: 5px 15px;">
+                <div style="display: flex; padding: 5px 8px;">
                     <Radio-group v-model="fieldList" size="small" @on-change="changeField">
-                        <Radio v-for="(col) in columns1" :label="col.key" :key="col.key" v-if="col.key !== 'bh' ">
+                        <Radio v-for="(col) in columns1" :label="col.key" :key="col.key" v-if="col.key !== 'bh' " style="margin-right: 4px !important;">
                             <span>{{ col.title }}</span>
                         </Radio>
                     </Radio-group>
@@ -152,7 +152,7 @@
                     value["idx"] = idx;
                 });
 
-                var optcls = new EChartsOptCls({
+                let optcls = new EChartsOptCls({
                     dataZoom: true
                 });
                 optcls.setDataset(this.dataSource, ["序号", cname], ["idx", field]);
@@ -210,6 +210,9 @@
                             this.menus.splice(0,0,...s);
                             // 对所有的站点在地图的位置创建标记和 echart 图表节点（display:none）
                             _ShuiYangUtils.createEchart();
+                            setTimeout(() => {
+                                this.menuSelect('option',this.menus[0].options[0],0,0);
+                            });
                         });
                 });
         }

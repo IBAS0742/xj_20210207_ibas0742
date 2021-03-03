@@ -19,7 +19,7 @@ import SheHuiJingJiYongShuiYuCe from "./views/水与社会经济/社会经济用
 //import XianHaiShuiZiYuan from "./views/三大湖区水生态平衡/咸海水资源/XianHaiShuiZiYuan";
 //import XianHaiHuPenDiBiaoBianHua from "./views/三大湖区水生态平衡/咸海湖盆地表变化/XianHaiHuPenDiBiaoBianHua";
 //import XianHaiHuQuShuiWen-ShengTai-HuanJingMoNi from "./views/三大湖区水生态平衡/咸海湖区水文-生态-环境模拟/XianHaiHuQuShuiWen-ShengTai-HuanJingMoNi";
-//import ZhongYaZhiBeiGongNeng from "./views/咸海生态服务评估/中亚植被功能/ZhongYaZhiBeiGongNeng";
+import ZhongYaZhiBeiGongNeng from "./views/咸海生态服务评估/中亚植被功能/ZhongYaZhiBeiGongNeng";
 //import ZhongYaTuRangGongNeng from "./views/咸海生态服务评估/中亚土壤功能/ZhongYaTuRangGongNeng";
 //import XianHaiLiuYuShengTaiFuWuGongNengPingGu from "./views/咸海生态服务评估/咸海流域生态服务功能评估/XianHaiLiuYuShengTaiFuWuGongNengPingGu";
 //import XianHaiLiuYuShengTaiFuWuJiaZhiPingGu from "./views/咸海生态服务评估/咸海流域生态服务价值评估/XianHaiLiuYuShengTaiFuWuJiaZhiPingGu";
@@ -119,10 +119,10 @@ const routers = [
 //                path: "XianHaiHuQuShuiWen-ShengTai-HuanJingMoNi",
 //                component: XianHaiHuQuShuiWen-ShengTai-HuanJingMoNi
 //            },
-//            {
-//                path: "ZhongYaZhiBeiGongNeng",
-//                component: ZhongYaZhiBeiGongNeng
-//            },
+           {
+               path: "ZhongYaZhiBeiGongNeng",
+               component: ZhongYaZhiBeiGongNeng
+           },
 //            {
 //                path: "ZhongYaTuRangGongNeng",
 //                component: ZhongYaTuRangGongNeng
