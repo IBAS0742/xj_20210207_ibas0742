@@ -19,7 +19,8 @@ function requestYydataByBh(bh) {
         }
     });
 
-    return new Promise(s => s(data));
+    // return new Promise(s => s(data));
+    return data
 }
 // 格式同 requestStation
 const requestMenus = () => new Promise(function (s) {

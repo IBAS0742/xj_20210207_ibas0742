@@ -8,13 +8,12 @@ class ShuiYangUtils {
      *
      * @param $this 这个是 vue 对象
      */
-    constructor($this,nameList) {
+    constructor($this) {
         this.$this = $this;
         this._myChart = null;
         this.echartElement = null;
         // 放置请求的数据（因为要分页这里放的是全部数据）
         this.tmpData = [];
-        this.nameList = nameList;
         //
         this.eAndc = null;
         this.pointEchart = {};
@@ -50,95 +49,6 @@ class ShuiYangUtils {
             return true;
         });
     }
-
-    // 解析沙尘暴柱状图
-    ParsingFscsData(dataList) {
-        var optcls = new EChartsOptCls({
-            dataZoom: true
-        });
-        optcls.setDataset(dataList, ["年份", "咸海", "尤阿雷", "卡萨雷", "克孜勒奥尔达", "斯瑞克拉巴特", "朱萨雷", "卡拉克"], ["year", "xh", "yal", "ksl", "aed", "lbt", "zsl", "klk"]);
-        optcls.setSeries([
-            {type: "bar", name: "咸海", encode: {x: 0, y: 1}},
-            {type: "bar", name: "尤阿雷", encode: {x: 0, y: 2}},
-            {type: "bar", name: "卡萨雷", encode: {x: 0, y: 3}},
-            {type: "bar", name: "克孜勒奥尔达", encode: {x: 0, y: 4}},
-            {type: "bar", name: "斯瑞克拉巴特", encode: {x: 0, y: 5}},
-            {type: "bar", name: "朱萨雷", encode: {x: 0, y: 6}},
-            {type: "bar", name: "卡拉克", encode: {x: 0, y: 7}}
-        ]);
-        this._myChart.setOption(optcls._opt, true);
-        this._resetChartStyle();
-    }
-
-    //解析单个点具体信息折线图
-    ParsingFscsData2(dataList) {
-        var optcls = new EChartsOptCls({
-            dataZoom: true
-        });
-        optcls.setDataset(dataList, ["年份", "次数"], ["year", "count"]);
-        optcls.setSeries({
-            type: "bar", name: "沙尘暴发生次数", encode: {x: 0, y: 1},
-            markLine: {
-                data: [
-                    {type: 'average', name: '平均值'}
-                ]
-            }
-        });
-        this._myChart.setOption(optcls._opt, true);
-        this._resetChartStyle();
-    }
-    //解析水样柱状图
-    ParsingSYData(type) {
-        let key;
-        switch (type) {
-            case "scb":
-                key = 1;
-                break;
-            case "fsl":
-                key = 2;
-                break;
-            case "scbfsl":
-                key = 3;
-                break;
-        }
-
-        var optcls = new EChartsOptCls({
-            dataZoom: true,
-            grid: {
-                left: 40,
-                right: 25
-            }
-        });
-        optcls.setAxis([
-            {type: "category"},
-            [
-                {type: "value"},
-                {type: "value", name: "变异系数"}
-            ]
-        ]);
-        optcls.setDataset(this.tmpData, ["气象站名", "沙尘量", "均方偏差", "变异系数"],
-            ["name", "scl" + key, "jfpc" + key, "byxs" + key]);
-        optcls.setSeries([
-            {type: "bar", name: "沙尘量", encode: {x: 0, y: 1}},
-            {type: "bar", name: "均方偏差", encode: {x: 0, y: 2}},
-            {type: "bar", name: "变异系数", encode: {x: 0, y: 3}, yAxisIndex: 1}
-        ]);
-        this._myChart.setOption(optcls._opt, true);
-        this._resetChartStyle();
-
-        // 改变输送量同时改变地图图表
-        this.nameList.forEach(name => {
-            var data = [];
-            this.tmpData.forEach(function (value) {
-                if (value.name === name) {
-                    data.push(value);
-                }
-            });
-
-            this._updateMapChartSsl(name, data, key);
-        });
-    }
-
 
     // 创建地图中的点及图表 改
     createEchart() {
